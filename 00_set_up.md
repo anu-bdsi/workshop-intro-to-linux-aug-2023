@@ -1,10 +1,12 @@
-## 1. Install WSL (Windows user)
+## 1. Install WSL (only for Windows user)
 
 Windows Subsystem for Linux (WSL) is a compatibility layer introduced by Microsoft that allows users to run a Linux environment directly on Windows operating systems. 
 
 Before installing, make sure you have administrator rights for your laptop. Then, you can follow the first 4 steps on this [page](https://ubuntu.com/tutorials/install-ubuntu-on-wsl2-on-windows-11-with-gui-support#1-overview) to install Ubuntu WSL on your laptop. You don't need to do the 5th step "Install and use GUI package" and 6th step. 
 
-## 2.1. Install Anaconda in WSL 
+## 2. Install Anaconda
+
+### 2.1. Install Anaconda in WSL 
 
 Anaconda is an open-source package management system and environment management system commonly used in data science, scientific computing, and machine learning projects. It allows you to install, update, and manage software packages and dependencies for your projects. It supports packages written in various programming languages, with a focus on Python packages. 
 
@@ -35,7 +37,7 @@ conda --version
 
 You should see `conda 23.3.1` printed on screen. 
 
-## 2.2. Install Anaconda in MacOS
+### 2.2. Install Anaconda in MacOS
 
 Anaconda is an open-source package management system and environment management system commonly used in data science, scientific computing, and machine learning projects. It allows you to install, update, and manage software packages and dependencies for your projects. It supports packages written in various programming languages, with a focus on Python packages. 
 
@@ -96,3 +98,6 @@ bwa # prompt with some commands
 samtools --version
 bcftools --version
 ```
+
+## 4. Download data
+
