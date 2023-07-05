@@ -6,9 +6,9 @@ Before installing, make sure you have administrator rights for your laptop. Then
 
 ## 2. Install Anaconda
 
-### 2.1. Install Anaconda in WSL 
-
 Anaconda is an open-source package management system and environment management system commonly used in data science, scientific computing, and machine learning projects. It allows you to install, update, and manage software packages and dependencies for your projects. It supports packages written in various programming languages, with a focus on Python packages. 
+
+### 2.1. Install Anaconda in WSL 
 
 First, let's start a Ubuntu terminal. 
 
@@ -38,8 +38,6 @@ conda --version
 You should see `conda 23.3.1` printed on screen. 
 
 ### 2.2. Install Anaconda in MacOS
-
-Anaconda is an open-source package management system and environment management system commonly used in data science, scientific computing, and machine learning projects. It allows you to install, update, and manage software packages and dependencies for your projects. It supports packages written in various programming languages, with a focus on Python packages. 
 
 * If you have an ANU managed device
 
