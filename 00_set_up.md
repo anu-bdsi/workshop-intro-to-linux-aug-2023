@@ -61,7 +61,7 @@ You should see the version number printed on your screen.
 
 Normally, when we use conda to install packages, we create different environments for each project. In this way, the packages won't conflict each other and are more organised. 
 
-In this short course, we will do a small project where we find the variants of some DNA sequencing data of E. coli. This bioinformatic process is called variant calling. So, we can create a new conda environment called `ecoli-vc`, and install the needed packages in this environment. 
+In this short course, we will do a small project where we find the variants of some DNA sequencing data of E.coli. This bioinformatic process is called variant calling. So, we can create a new conda environment called `ecoli-vc`, and install the needed packages in this environment. 
 
 ```sh
 # to create a new conda environment
@@ -101,3 +101,30 @@ bcftools --version
 
 ## 4. Download data
 
+The data we are going to work with in this workshop is DNA sequencing data from E.coli, it is part of a long-term evolution experiment led by [Richard Lenski](https://en.wikipedia.org/wiki/E._coli_long-term_evolution_experiment). We will talk more background about the data later in this course. 
+
+In your terminal, run the following codes to download the needed files:
+
+```sh
+# create a new directory where we store the files 
+mkdir -p ~/linux-workshop/data/untrimmed-fastq/
+
+# go into the directory we just created 
+cd ~/linux-workshop/data/untrimmed-fastq/ 
+
+# curl is a command to download files from the internet 
+curl -O ftp://ftp.sra.ebi.ac.uk/vol1/fastq/SRR258/004/SRR2589044/SRR2589044_1.fastq.gz
+curl -O ftp://ftp.sra.ebi.ac.uk/vol1/fastq/SRR258/004/SRR2589044/SRR2589044_2.fastq.gz
+curl -O ftp://ftp.sra.ebi.ac.uk/vol1/fastq/SRR258/003/SRR2584863/SRR2584863_1.fastq.gz
+curl -O ftp://ftp.sra.ebi.ac.uk/vol1/fastq/SRR258/003/SRR2584863/SRR2584863_2.fastq.gz
+curl -O ftp://ftp.sra.ebi.ac.uk/vol1/fastq/SRR258/006/SRR2584866/SRR2584866_1.fastq.gz
+curl -O ftp://ftp.sra.ebi.ac.uk/vol1/fastq/SRR258/006/SRR2584866/SRR2584866_2.fastq.gz
+```
+
+## 5. Install Integrative Genomics Viewer (IGV)
+
+IGV is a powerful and widely used visualisation tool for exploring and analysing genomic data, it allows researchers to interactively visualise and analyse various types of genomic data, including DNA sequencing data, gene expression data, epigenetic data, and more. 
+
+We are going to use IGV to look at the results we get from variant calling. 
+
+Go to this [page](https://software.broadinstitute.org/software/igv/download) and pick the right one to download for your device. Choose the one with Jave included. Windows users to download the Windows version not the Linux version. 
