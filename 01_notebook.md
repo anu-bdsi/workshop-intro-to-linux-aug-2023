@@ -31,4 +31,26 @@ __Server and web hosting__: Linux-based servers are widely used for hosting biol
 
 # Command Line Interface (CLI)
 
+A command-line interface is a text-based interface used to interact with a computer operating system or software by typing commands into a terminal or command prompt. In a CLI, users communicate with the computer through text commands rather than using graphical user interfaces (GUIs) with windows, menus, and buttons.
+
+In a CLI, users typically enter commands as text strings followed by pressing the Enter/Return key to execute the command. These commands are interpreted by the operating system or software, which then performs the requested actions or provides the desired information. 
+
+__Please open a new terminal__
+
+You may see something like this:
+
+![new-terminal](figures/new-terminal.png)
+
+This is your command line interface, it may look slightly different depending on your device but they share the similar elements.
+
+* __User name__: before the @ sign is your user name. For the example figure, the user name is `jiajia`.
+* __Device name__: after the @ sign is your device name. For the example, the device name is `RSB-072750`.
+* __Your location__: after the colon and before the $ sign is your location on the device. For the example, the location we are at is `~` which means the home directory. 
+* __Command to run__: after the $ sign is where you type the command. 
+* __Environment name (optional)__: at the beginning of the command prompt with a bracket, it means the environment you are in. It only shows when you have installed a environment management software on your device, such as Conda or Mamba. For the example, the environment name is `base`. 
+
+Below is also a good example image, you can try the command in there. 
+
+![cli-example](https://res.cloudinary.com/edlitera/image/upload/c_scale/v1564606702/blog/lhp098yhjklkj89.png) 
+
 
