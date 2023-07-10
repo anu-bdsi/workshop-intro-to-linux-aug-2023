@@ -89,7 +89,68 @@ File system is the structure and organisation of files and directories. In Linux
 Because there is no graphic user interface (GUI) for Linux, we can imagine a tree-like organisation to help us understand the relationships between directories. 
 
 * __Root directory `/`__: root directory is the top-level directory and serves as the starting point of the file system hierarchy. All other directories and files are located within the root directory or its subdirectories. 
-* __Path__: a path is a string that represents the location of a file or directory within the file system. It can be either absolute or relative. An absolute path starts from the root directory `/`, while a relative path is specified relative to the current directory. 
+* __Path__: a path is a string that represents the location of a file or directory within the file system. For example, a path may look like this `/home/jiajia/data/sample_1.fasta`
+
+## Absolute vs Relative Path 
+
+A path can be either absolute or relative. An absolute path starts from the root directory `/`, while a relative path is specified relative to the current directory. 
+
+In Linux, we use `.` to represent the current directory and `..` to represent the parent directory. 
+
+__Q: What is the absolute path of the directory `scripts`?__
+
+__Q: If we are in the directory `/home/mary`, what is the relative path to the directory `robert`?__
+
+# Commands to move around in Linux 
+
+When we log into a Linux system, we are in the home directory `~` by default. What exactly is this `~` directory? We can use the command `pwd` to check out. 
+
+## `pwd` - Path of Working Directory
+
+This command tells your current directory. 
+
+![pwd-image](figures/pwd.png)
+
+From the figure we can see we are in the `~` directory, and by using the command `pwd` we know that our home directory is `/home/jiajia`. The path to home directory is different for each user. 
+
+## `ls` - Listing 
+
+This command lists all the things in your current directory. 
+
+![ls](figures/ls.png)
+
+For now, it will return nothing for you because you are a new user and haven't create anything under your home directory. As we mentioned above, we can put a path as the argument to `ls` to list all the things under that path. 
+
+__Use `ls /` to list everything under the root directory__
+
+![ls-root](figures/ls-root.png)
+
+__Exercise: list everything under the `/home` directory__
+
+`ls` has many useful options to look at out files with more details. I'll list a few here:
+
+* `ls -l`: list with long format 
+* `ls -a`: list all files including hidden files start with `.`
+
+You can combine two options together and type it in this way: `ls -al`, it means to list all files including hidden files in long format. 
+
+![ls-al](figures/ls-al.png)
+
+## Long format file information explain 
+
+![long-format](https://stackabuse.s3.amazonaws.com/media/guide-to-chmod-1.jpg)
+
+By default, the file sizes shown are in bytes format, we can use the option `-h` in `ls` to make it shows in KBs, MBs, and GBs. 
+
+![ls-alh](figures/ls-alh.png)
+
+## `cd` - Change Directory 
+
+This command lets you go to other directories in Linux. 
+
+
+
+
 
 
 
