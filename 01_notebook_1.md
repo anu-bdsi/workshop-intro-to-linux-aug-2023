@@ -2,7 +2,16 @@
 
 ## Contents today 
 
-
+* Linux operating system
+* Command line interface 
+* Linux command and its syntax 
+* Linux file system 
+* Commands to move around in Linux 
+* Create files and directories 
+* Read file contents 
+* Remove files and directories 
+* Move, rename, and copy files and directories 
+* Some useful tricks in Linux 
 
 # Linux operating system
 
