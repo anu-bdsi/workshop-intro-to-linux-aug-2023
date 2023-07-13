@@ -101,6 +101,12 @@ __Q: What is the absolute path of the directory `scripts`?__
 
 __Q: If we are in the directory `/home/mary`, what is the relative path to the directory `robert`?__
 
+## Mouse does not work in terminal
+
+This is one thing to pay attention to before we move on to practising commands. 
+
+When you type commands in the command line, you can only use the arrow keys to move your cursor. 
+
 # Commands to move around in Linux 
 
 When we log into a Linux system, we are in the home directory `~` by default. What exactly is this `~` directory? We can use the command `pwd` to check out. 
@@ -146,7 +152,95 @@ By default, the file sizes shown are in bytes format, we can use the option `-h`
 
 ## `cd` - Change Directory 
 
-This command lets you go to other directories in Linux. 
+This command lets you go to other directories in Linux. You can use either absolute or relative path as the argument to this command.
+
+* Use absolute path go to `/home` directory: `cd /home`
+* Use relative path to go to `/home` directory: `cd ..`
+
+Then, go back to your home directory using `cd ~`.
+
+# Creating files and directories
+
+## `mkdir` - Make Directory 
+
+This command lets you create an empty directory. 
+
+This command takes a new directory name as the argument. For example, to create a new directory named `variant-calling` under our current directory, we can use the command `mkdir variant-calling`. 
+
+## `touch` - To create empty files 
+
+This command lets you create empty files, it takes the file name as the argument. For example, if I want to create a new empty file called `new_file.txt` I can run `touch new_file.txt`.
+
+__Exercise: change directory to `variant-calling` and create a new file called `new_file.txt`__
+
+After we create the new empty file, how do we edit it like we edit it in Windows/MacOS? 
+
+## Text editors 
+
+Like in Windows and MacOS, Linux also has many different types of text editors and you can choose the one you like to use. Here, we will introduce one easy to use text editor called Nano. 
+
+## Text editor `nano`
+
+`nano` takes the file name as the argument. To edit the file `new_file.txt` we just created, we can run `nano new_file.txt`. After you run the command, you will go into the text editor interface. 
+
+![nano-editor](figures/nano-editor.png)
+
+In here, you can type the things you want. 
+
+At the bottom of the interface, there are some shortcuts for functions. `^G` means pressing `ctrl` key and `G` key together to get the help manual. In the manual, there is a list of shortcuts for different functions. 
+
+__Type something in the file__
+
+To save and exit the editor, use `^X` shortcut. You will be prompted with 2 questions. 
+
+The first question would ask you "Save Modified Buffer?", it's asking you if you want to save the things you have edited. Press `y` or `n` to answer.
+
+![nano-save-buffer](figures/nano-save-buffer.png)
+
+The second question is asking you what name do you want to save this file as, if you don't want to change the file name, simply press `enter`. If you want to change the file name, you can delete the text and type the new file name. 
+
+![nano-save-filename](figures/nano-save-filename.png)
+
+# Read file contents 
+
+Now we have successfully created a file and input some things in. How do we read the file?
+
+Of course we can use the same `nano` text editor to open the file and read it. But there are more ways to display or read a file in Linux.
+
+## `cat` - Print file contents 
+
+This command prints out a file's all content on the screen, it takes the file name as an argument. To print out the `new_file.txt`, we can run `cat new_file.txt`. 
+
+![cat-newfile](figures/cat-new-file.png)
+
+But in reality, files can be really big and the content is long. We wouldn't want to print out everything on the screen. In those situations, we can use the command `less`.
+
+## `less` - Viewing files 
+
+This command allows you to view the contents of a file in a scrollable manner, enabling you to navigate through large files easily. 
+
+First, let's download a large file for us to view. 
+
+```sh
+# wget is a command to download files from the internet 
+wget https://zenodo.org/record/3736457/files/1_control_18S_2019_minq7.fastq
+```
+
+The downloading process should look like this:
+
+![download-fastq](figures/download-sample.png)
+
+After downloading, we can use `less 1_control_18S_2019_minq7.fastq` to view the content of the fastq file. When you type the file name, you can press `tab` key to auto-complete the file name. 
+
+
+
+
+
+
+
+
+
+
 
 
 
