@@ -2,19 +2,7 @@
 
 ## Contents today 
 
-* Linux operating system
-* Command Line Interface (CLI)
-* Linux commands and syntax 
-* Linux file system 
 
-* Structure and file path 
-* Moving between directories 
-* Creating, deleting, copying, moving, and renaming files and directories 
-* Editing and viewing files 
-
-* Getting help with a command 
-* Using shortcuts 
-* Using tmux 
 
 # Linux operating system
 
@@ -159,7 +147,7 @@ This command lets you go to other directories in Linux. You can use either absol
 
 Then, go back to your home directory using `cd ~`.
 
-# Creating files and directories
+# Create files and directories
 
 ## `mkdir` - Make Directory 
 
@@ -215,7 +203,7 @@ This command prints out a file's all content on the screen, it takes the file na
 
 But in reality, files can be really big and the content is long. We wouldn't want to print out everything on the screen. In those situations, we can use the command `less`.
 
-## `less` - Viewing files 
+## `less` - View file contents
 
 This command allows you to view the contents of a file in a scrollable manner, enabling you to navigate through large files easily. 
 
@@ -232,21 +220,97 @@ The downloading process should look like this:
 
 After downloading, we can use `less 1_control_18S_2019_minq7.fastq` to view the content of the fastq file. When you type the file name, you can press `tab` key to auto-complete the file name. 
 
+You will go into an interface with file content displayed:
 
+![less-fastq](figures/less-fastq.png)
 
+In this interface:
+* We can use arrow keys to scroll up/down/left/right line by line.
+* We can also use the `space` key to scroll down page by page. 
+* Press `q` to exit the interface. 
+* Use `/string` to search a pattern. 
 
+## `head` and `tail` - Print the beginning or end of a file 
 
+These 2 commands allows you to print the beginning or end part of a file, it prints out 10 lines of contents by default. 
 
+You can try `head 1_control_18S_2019_minq7.fastq` and `tail 1_control_18S_2019_minq7.fastq`. 
 
+To specify a certain number of lines to view, we can use the option `-n`. For example, to print out the first 20 lines of the file, we can run `head -n 20 1_control_18S_2019_minq7.fastq`. Similar with `head`, you can use `-n` option with `tail` too. 
 
+# Remove files and directories 
 
+## `rmdir` - Remove empty directories
 
+This command allows you to remove empty directories, it cannot remove directories with files in it. 
 
+__Exercise: create an empty directory and remove it.__
 
+## `rm` - Remove files 
 
+This command allows you to remove files, it takes the file name as an argument. To remove the file `new_file.txt`, we can run `rm new_file.txt`. 
 
+## `rm -r` - Remove directories with files inside 
 
+The `-r` option with command `rm` allows you to remove directories that have files inside. 
 
+__Exercise: create a directory with files in it, and use `rm -r` to remove them all together.__
 
+# Move, rename, and copy files and directories 
 
+## `mv` - Move files and directories
 
+__Syntax__: `mv /path/to/source /path/to/destination`
+
+This command works on both files and directories, you don't need an option to move directories. 
+
+<span style="color:red">If there is an existing file that has the same name with your source file, the `mv` command will overwrite the existing file.</span>
+
+__Exercise 01: move `1_control_18S_2019_minq7.fastq` to your home directory and move it back.__ 
+
+__Exercise 02: create a new directory `workshops` in your home directory, and move the directory `variant-calling` into `workshops`.__
+
+## `mv` - Rename files and directories
+
+In Windows or MacOS operating systems, move a file and rename a file seems are different things. But in Linux, it shares the same command. 
+
+__Syntax__: `mv old_name.txt new_name.txt` 
+
+To rename our `1_control_18S_2019_minq7.fastq` file to a simpler name, we can run `mv 1_control_18S_2019_minq7.fastq sample_1.fastq`
+
+## `cp` - Copy files 
+
+__Syntax__: `cp /path/to/source /path/to/destination`
+
+If you would like to make a duplicate of a file in the same folder, you can run `cp existing_file.txt new_name.txt`
+
+For example, to make a duplicate of `sample_1.fastq` and name it `sample_1_copy.fastq`, we can run `cp sample_1.fastq sample_1_copy.fastq`
+
+## `cp -r` - Copy directories
+
+The `-r` option with `cp` allows you to copy a directories with everything inside. 
+
+# Some useful tricks in Linux 
+
+## `--help` - Getting help with a command 
+
+If you want to learn a new command or if you forgot the options for a command, you can use the `--help` option to read the manual. 
+
+For example, if I want to learn more about how to use `ls`, I can run `ls --help`.
+
+![ls-help](figures/ls-help.png)
+
+## Shortcuts 
+
+* `tab` key to complete file and directory names
+* `↑` key to get the previous command, and the previous command of the previous command
+* `ctrl + c` to kill running process 
+* `clear` command to clear terminal
+* `exit` command to exit from the current shell 
+
+## Wild Card
+
+Linux provides 2 wildcard characters to represent ambiguous characters or strings in file or directory names. 
+
+* The question mark `?` represents any single character. For example, `ls file?.txt` would list `file1.txt` and `file2.txt` but not `file50.txt`. 
+* The asterisk `*` represents any string of 0 or more characters. For example, `ls file*.txt` would list `file.txt`, `file1.txt`, `file2.txt`, and `file50.txt` but not `file01.data`. 
