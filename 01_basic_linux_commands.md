@@ -1,4 +1,4 @@
-# Week 1 - Basic Linux commands 
+# Workshop 1 - Basic Linux commands 
 
 ## Contents today 
 
