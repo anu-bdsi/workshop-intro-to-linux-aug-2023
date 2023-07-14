@@ -1,17 +1,15 @@
-# Workshop 1 - Basic Linux commands 
+# Workshop 1 - Linux basics 
 
-## Contents today 
+## Learning objectives 
 
-* Linux operating system
-* Command line interface 
-* Linux command and its syntax 
-* Linux file system 
-* Commands to move around in Linux 
-* Create files and directories 
-* Read file contents 
-* Remove files and directories 
-* Move, rename, and copy files and directories 
-* Some useful tricks in Linux 
+* Understand what is Linux and why do we need to use it in biology research
+* Understand the concept of command line interface and terminal
+* Understand the syntax of Linux commands 
+* Understand the Linux file system
+* Be able to use commands to go to different locations in the system
+* Be able to use commands to create, delete, copy, move, and rename files and directories
+* Be able to use commands to view and print file contents 
+* Be able to use Linux shortcuts and wild cards 
 
 # Linux operating system
 
@@ -313,7 +311,7 @@ For example, if I want to learn more about how to use `ls`, I can run `ls --help
 
 * `tab` key to complete file and directory names
 * `↑` key to get the previous command, and the previous command of the previous command
-* `ctrl + c` to kill running process 
+* `ctrl + c` to terminate running process 
 * `clear` command to clear terminal
 * `exit` command to exit from the current shell 
 
