@@ -200,7 +200,7 @@ For more functionality of `sed`, you can use `--help` to read the manual.
 
 ## `wget` - Download files from the internet
 
-`wget` can download files from http/https/ftp addresses. We will use this command to download the files we are going to use in the variant calling workflow. 
+This command allows you to download files from http/https/ftp addresses, we will use it to download the data for the variant calling workflow. 
 
 First, let's create a directory to store the data files.
 
@@ -208,6 +208,8 @@ First, let's create a directory to store the data files.
 mkdir -p ~/workshops/variant-calling/raw-fastq/
 cd ~/workshops/variant-calling/raw-fastq/ 
 ```
+
+The `-p` option of `mkdir` allows to create parent directories as needed. In other words, if any directories in the path don't exist, the command will create them. 
 
 ```sh
 wget ftp://ftp.sra.ebi.ac.uk/vol1/fastq/SRR258/004/SRR2589044/SRR2589044_1.fastq.gz
@@ -220,6 +222,4 @@ wget ftp://ftp.sra.ebi.ac.uk/vol1/fastq/SRR258/006/SRR2584866/SRR2584866_2.fastq
 
 ## `scp` - Secure copy 
 
-
-
-
+This command allows you to transfer files from a remote machine to a local machine, since we are using our local machine we don't need file trnasfer. But this command is useful when you working on a remote machine. 
