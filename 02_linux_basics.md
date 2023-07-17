@@ -43,7 +43,7 @@ ls -alh /etc > things_in_etc.txt
 
 This redirects the output of the command `ls` to a text file, we can use less to view what's in the result file. 
 
-__Make sure to use correct filename, output redirect overwrite everything in the file that has the same name.__
+__Make sure to use correct filename, output redirect overwrite everything in a existing file.__
 
 ## `>>` - Append output redirection 
 
@@ -100,6 +100,126 @@ There are options to only display one data:
 
 `uniq` allows you to remove duplicates of presorted files. 
 
-We won't use these commands in our course but they are very useful. If you would like to learn more about them, you can use the `--help` option to read the manual. 
+We won't use these commands in our course but they are very useful. If you would like to learn more about them, you can use the `--help` option to read the manual or watch tutorials online. 
 
-## `grep` - 
+## `grep` - Global regular expression print 
+
+This command is used to search text in a given file or input, it searches for lines containing a match to given text. 
+
+To search text in a file:
+
+```sh
+grep 'conf' things_in_etc.txt 
+```
+
+You can use `grep` with pipe to search things in an output of another command:
+
+```sh
+ls | grep 'fastq'
+```
+
+Some options to search with functionality:
+
+```sh
+grep -i # case-insensitive search 
+grep -v # invert matching, select non-matching lines 
+grep -c # print only the count of matching lines 
+grep -n # prefix the output with line number 
+```
+
+## `tr` - Translate 
+
+This command allows you to translate or delete characters. It cannot take a file as input, so we normally use `tr` with pipes `|`. For example:
+
+To translate 6 to 7:
+
+```sh
+echo 'file_6.txt' | tr 6 7
+```
+
+The `tr` command cannot translate strings, it only works on characters. For example, if I want to replace the name with another name:
+
+```sh
+echo 'Welcome Jiajia!' | tr 'Jiajia' 'David'
+```
+
+It gives us:
+
+```
+Welcome Dddidd! 
+```
+
+Which is not something we were expecting. That is because it translates each character rather than find the whole thing and replace it. To find and replace strings, we will use another command called `sed`. 
+
+The `tr` command works really well when we want to :
+
+__1. Convert between lower and upper case__
+
+```sh
+tr [:lower:] [:upper:] < things_in_etc.txt 
+```
+
+__2. Convert between space/tab/newline characters etc__
+
+```sh
+# convert space characters to newline characters 
+tr ' ' '\n' < things_in_etc.txt 
+```
+
+__3. Delete characters__ 
+
+Here we use the `-d` option of `tr`. 
+
+```sh
+echo 'Hello, world!' | tr -d 'o'
+```
+
+Delete all the space characters:
+
+```sh
+tr -d ' ' < things_in_etc.txt 
+```
+
+Because the `tr` command doesn't work on files directly, you need to use output redirect `>` to save the result. 
+
+## `sed` - Stream editor 
+
+`sed` can perform text manipulation on files. It reads input line by line, performs specified operations on the text, and outputs the modified result. `sed` supports a variety of commands and options to perform a wide range of text transformations.
+
+__Find and replace string:__
+
+The syntax is `sed s/pattern/replacement/g filename`. To find replace the string `root` with `admin` on file `things_in_etc.txt`:
+
+```sh
+sed 's/root/admin/g' things_in_etc.txt 
+```
+
+For more functionality of `sed`, you can use `--help` to read the manual. 
+
+# Downloading and transfering data 
+
+## `wget` - Download files from the internet
+
+`wget` can download files from http/https/ftp addresses. We will use this command to download the files we are going to use in the variant calling workflow. 
+
+First, let's create a directory to store the data files.
+
+```sh
+mkdir -p ~/workshops/variant-calling/raw-fastq/
+cd ~/workshops/variant-calling/raw-fastq/ 
+```
+
+```sh
+wget ftp://ftp.sra.ebi.ac.uk/vol1/fastq/SRR258/004/SRR2589044/SRR2589044_1.fastq.gz
+wget ftp://ftp.sra.ebi.ac.uk/vol1/fastq/SRR258/004/SRR2589044/SRR2589044_2.fastq.gz
+wget ftp://ftp.sra.ebi.ac.uk/vol1/fastq/SRR258/003/SRR2584863/SRR2584863_1.fastq.gz
+wget ftp://ftp.sra.ebi.ac.uk/vol1/fastq/SRR258/003/SRR2584863/SRR2584863_2.fastq.gz
+wget ftp://ftp.sra.ebi.ac.uk/vol1/fastq/SRR258/006/SRR2584866/SRR2584866_1.fastq.gz
+wget ftp://ftp.sra.ebi.ac.uk/vol1/fastq/SRR258/006/SRR2584866/SRR2584866_2.fastq.gz
+```
+
+## `scp` - Secure copy 
+
+
+
+

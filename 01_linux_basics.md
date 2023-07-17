@@ -307,6 +307,10 @@ For example, if I want to learn more about how to use `ls`, I can run `ls --help
 
 ![ls-help](figures/ls-help.png)
 
+## `history` - Get the history of recently used commands 
+
+This command makes it easier to search for commands in the history and copy-paste to reuse it. 
+
 ## Shortcuts 
 
 * `tab` key to complete file and directory names
