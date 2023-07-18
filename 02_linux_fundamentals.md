@@ -220,6 +220,21 @@ wget ftp://ftp.sra.ebi.ac.uk/vol1/fastq/SRR258/006/SRR2584866/SRR2584866_1.fastq
 wget ftp://ftp.sra.ebi.ac.uk/vol1/fastq/SRR258/006/SRR2584866/SRR2584866_2.fastq.gz
 ```
 
-## `scp` - Secure copy 
+## `scp` and `rsync` - Secure copy 
 
-This command allows you to transfer files from a remote machine to a local machine, since we are using our local machine we don't need file trnasfer. But this command is useful when you working on a remote machine. 
+`scp` allows you to transfer files between a remote machine to a local machine, since we only use our local machine this time we don't need to transfer. But this command is useful when you working on a remote machine. 
+
+`rsync` allows you to transfer directories with everything in it while `scp` only allows file transfer. 
+
+# Loop statements
+
+A loop is a powerful programming tool that enables you to execute a set of commands repeatedly. There are two types of loops in Linux, for loop and while loop. Here, we will only learn `for` loop as it is more frequently used in data analysis. 
+
+## `for` loop
+
+`for` loop allows you to iterate over a list of items and perform actions on each item in the list. For example:
+
+```sh
+
+```
+
