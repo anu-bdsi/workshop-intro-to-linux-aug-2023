@@ -1,9 +1,14 @@
 # Workshop 2 - Linux basics 
 
-## Contents today 
+## Learning objectives 
 
-* 
-* 
+* Understand the standard input and output of Linux
+* Be able to use input and output redirection and pipes
+* Be able to count, shuf, sort, find, and replace texts in a file 
+* Be able to download data from the internet 
+* Be able to transfer data between remote and local machine 
+* Understand Linux variables and be able to create one 
+* Understand and be able to use for loop 
 
 # Standard input and output in Linux 
 
@@ -208,25 +213,13 @@ For more functionality of `sed`, you can use `--help` to read the manual.
 
 ## `wget` - Download files from the internet
 
-This command allows you to download files from http/https/ftp addresses, we will use it to download the data for the variant calling workflow. 
-
-First, let's create a directory to store the data files.
+This command allows you to download files from http/https/ftp addresses. For example:
 
 ```sh
-mkdir -p ~/workshops/variant-calling/raw-fastq/
-cd ~/workshops/variant-calling/raw-fastq/ 
+wget ftp://ftp.sra.ebi.ac.uk/vol1/fastq/SRR258/004/SRR2589044/SRR2589044_1.fastq.gz 
 ```
 
-The `-p` option of `mkdir` allows to create parent directories as needed. In other words, if any directories in the path don't exist, the command will create them. 
-
-```sh
-wget ftp://ftp.sra.ebi.ac.uk/vol1/fastq/SRR258/004/SRR2589044/SRR2589044_1.fastq.gz
-wget ftp://ftp.sra.ebi.ac.uk/vol1/fastq/SRR258/004/SRR2589044/SRR2589044_2.fastq.gz
-wget ftp://ftp.sra.ebi.ac.uk/vol1/fastq/SRR258/003/SRR2584863/SRR2584863_1.fastq.gz
-wget ftp://ftp.sra.ebi.ac.uk/vol1/fastq/SRR258/003/SRR2584863/SRR2584863_2.fastq.gz
-wget ftp://ftp.sra.ebi.ac.uk/vol1/fastq/SRR258/006/SRR2584866/SRR2584866_1.fastq.gz
-wget ftp://ftp.sra.ebi.ac.uk/vol1/fastq/SRR258/006/SRR2584866/SRR2584866_2.fastq.gz
-```
+downloads a zipped fasta file from a ftp address. 
 
 ## `scp` and `rsync` - Secure copy 
 

@@ -1,10 +1,8 @@
-
-
-## 2. Install Anaconda
+# 1. Install Anaconda
 
 Anaconda is an open-source package management system and environment management system commonly used in data science, scientific computing, and machine learning projects. It allows you to install, update, and manage software packages and dependencies for your projects. It supports packages written in various programming languages, with a focus on Python packages. 
 
-### 2.1. Install Anaconda in WSL 
+## 1.1. Install Anaconda in WSL 
 
 First, let's start a Ubuntu terminal. 
 
@@ -33,7 +31,7 @@ conda --version
 
 You should see `conda 23.3.1` printed on screen. 
 
-### 2.2. Install Anaconda in MacOS
+## 1.2. Install Anaconda in MacOS
 
 * If you have an ANU managed device
 
@@ -51,7 +49,7 @@ conda --version
 
 You should see the version number printed on your screen. 
 
-## 3. Install the necessary software packages using conda
+# 2. Install the necessary software packages using conda
 
 Normally, when we use conda to install packages, we create different environments for each project. In this way, the packages won't conflict each other and are more organised. 
 
@@ -93,7 +91,7 @@ samtools --version
 bcftools --version
 ```
 
-## 4. Download data
+# 3. Download data
 
 The data we are going to work with in this workshop is DNA sequencing data from E.coli, it is part of a long-term evolution experiment led by [Richard Lenski](https://en.wikipedia.org/wiki/E._coli_long-term_evolution_experiment). We will talk more background about the data later in this course. 
 
@@ -107,15 +105,15 @@ mkdir -p ~/linux-workshop/data/untrimmed-fastq/
 cd ~/linux-workshop/data/untrimmed-fastq/ 
 
 # curl is a command to download files from the internet 
-curl -O ftp://ftp.sra.ebi.ac.uk/vol1/fastq/SRR258/004/SRR2589044/SRR2589044_1.fastq.gz
-curl -O ftp://ftp.sra.ebi.ac.uk/vol1/fastq/SRR258/004/SRR2589044/SRR2589044_2.fastq.gz
-curl -O ftp://ftp.sra.ebi.ac.uk/vol1/fastq/SRR258/003/SRR2584863/SRR2584863_1.fastq.gz
-curl -O ftp://ftp.sra.ebi.ac.uk/vol1/fastq/SRR258/003/SRR2584863/SRR2584863_2.fastq.gz
-curl -O ftp://ftp.sra.ebi.ac.uk/vol1/fastq/SRR258/006/SRR2584866/SRR2584866_1.fastq.gz
-curl -O ftp://ftp.sra.ebi.ac.uk/vol1/fastq/SRR258/006/SRR2584866/SRR2584866_2.fastq.gz
+wget ftp://ftp.sra.ebi.ac.uk/vol1/fastq/SRR258/004/SRR2589044/SRR2589044_1.fastq.gz
+wget ftp://ftp.sra.ebi.ac.uk/vol1/fastq/SRR258/004/SRR2589044/SRR2589044_2.fastq.gz
+wget ftp://ftp.sra.ebi.ac.uk/vol1/fastq/SRR258/003/SRR2584863/SRR2584863_1.fastq.gz
+wget ftp://ftp.sra.ebi.ac.uk/vol1/fastq/SRR258/003/SRR2584863/SRR2584863_2.fastq.gz
+wget ftp://ftp.sra.ebi.ac.uk/vol1/fastq/SRR258/006/SRR2584866/SRR2584866_1.fastq.gz
+wget ftp://ftp.sra.ebi.ac.uk/vol1/fastq/SRR258/006/SRR2584866/SRR2584866_2.fastq.gz
 ```
 
-## 5. Install Integrative Genomics Viewer (IGV)
+# 4. Install Integrative Genomics Viewer (IGV)
 
 IGV is a powerful and widely used visualisation tool for exploring and analysing genomic data, it allows researchers to interactively visualise and analyse various types of genomic data, including DNA sequencing data, gene expression data, epigenetic data, and more. 
 

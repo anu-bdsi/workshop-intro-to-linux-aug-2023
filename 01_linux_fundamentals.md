@@ -269,13 +269,11 @@ __Exercise: create a directory with files in it, and use `rm -r` to remove them 
 
 __Syntax__: `mv /path/to/source /path/to/destination`
 
-This command works on both files and directories, you don't need an option to move directories. 
+This command works on both files and directories, you don't need an option to move directories. If there is an existing file that has the same name with your source file, the `mv` command will overwrite the existing file.
 
-<span style="color:red">If there is an existing file that has the same name with your source file, the `mv` command will overwrite the existing file.</span>
+__Exercise: move `1_control_18S_2019_minq7.fastq` to your home directory and move it back.__ 
 
-__Exercise 01: move `1_control_18S_2019_minq7.fastq` to your home directory and move it back.__ 
-
-__Exercise 02: create a new directory `workshops` in your home directory, and move the directory `variant-calling` into `workshops`.__
+__Exercise: create a new directory `workshops` in your home directory, and move the directory `variant-calling` into `workshops`.__
 
 ## `mv` - Rename files and directories
 
@@ -283,7 +281,7 @@ In Windows or MacOS operating systems, move a file and rename a file seems are d
 
 __Syntax__: `mv old_name.txt new_name.txt` 
 
-To rename our `1_control_18S_2019_minq7.fastq` file to a simpler name, we can run `mv 1_control_18S_2019_minq7.fastq sample_1.fastq`
+__Exercise: rename file `1_control_18S_2019_minq7.fastq` to `sample_1.fastq`.__
 
 ## `cp` - Copy files 
 
