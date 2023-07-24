@@ -122,14 +122,22 @@ Some options to search with functionality:
 
 ```sh
 grep -i # case-insensitive search 
-grep -v # invert matching, select non-matching lines 
 grep -c # print only the count of matching lines 
-grep -n # prefix the output with line number 
 ```
+
+## `echo` - Display text to the terminal 
+
+The echo command is used to display text or output to the terminal or standard output (stdout). It simply prints the text or variables to the screen. For example, to print a sentence on the screen:
+
+```sh
+echo "Hello, world!" 
+```
+
+You can use either double quotes or single quotes to quote the sentence. 
 
 ## `tr` - Translate 
 
-This command allows you to translate or delete characters. It cannot take a file as input, so we normally use `tr` with pipes `|`. For example:
+This command allows you to translate or delete characters. It cannot take a file as the argument, so we normally use `tr` with pipes `|` or input redirection `<`.
 
 To translate 6 to 7:
 
@@ -137,7 +145,7 @@ To translate 6 to 7:
 echo 'file_6.txt' | tr 6 7
 ```
 
-The `tr` command cannot translate strings, it only works on characters. For example, if I want to replace the name with another name:
+The `tr` command cannot translate strings, it only works on characters. For example, if I want to replace the name Jiajia with another name:
 
 ```sh
 echo 'Welcome Jiajia!' | tr 'Jiajia' 'David'
@@ -226,15 +234,61 @@ wget ftp://ftp.sra.ebi.ac.uk/vol1/fastq/SRR258/006/SRR2584866/SRR2584866_2.fastq
 
 `rsync` allows you to transfer directories with everything in it while `scp` only allows file transfer. 
 
+# Linux variables 
+
+In Linux, variables are used to store data, such as text strings, numbers, or arrays, with a name that serves as a reference to that data. The syntax to create a variable is:
+
+```sh
+variable_name=value 
+```
+
+For example, to create a variable called `name` with the value `John`:
+
+```sh
+name="John"
+```
+
+To access the value of a variable, we use the `$` sign followed by the variable name:
+
+```sh
+echo "My name is $name"
+```
+
 # Loop statements
 
-A loop is a powerful programming tool that enables you to execute a set of commands repeatedly. There are two types of loops in Linux, for loop and while loop. Here, we will only learn `for` loop as it is more frequently used in data analysis. 
+A loop is a powerful programming tool that enables you to execute a set of commands repeatedly. There are two types of loops in Linux, for loop and while loop. Here, we will learn `for` loop as it is more frequently used in data analysis. 
 
 ## `for` loop
 
-`for` loop allows you to iterate over a list of items and perform actions on each item in the list. For example:
+`for` loop allows you to iterate over a list of items and perform actions on each item in the list. The syntax looks like:
 
 ```sh
-
+for thing in list_of_things
+do 
+    command_1 
+    command_2 
+    ...
+done
 ```
 
+To print each of the elements in the list, we can run: 
+
+```sh
+for i in a b c
+do 
+    echo $i
+done
+```
+
+or 
+
+```sh
+fruits="apple orange banana"
+
+for fruit in $fruits
+do
+    echo "I like $fruit"
+done
+```
+
+For loop is very useful when you want to perform the same activity on a list of things. 
