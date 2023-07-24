@@ -2,7 +2,7 @@
 
 Anaconda is an open-source package management system and environment management system commonly used in data science, scientific computing, and machine learning projects. It allows you to install, update, and manage software packages and dependencies for your projects. It supports packages written in various programming languages, with a focus on Python packages. 
 
-## 1.1. Install Anaconda in WSL 
+## 1.1. Install Anaconda on WSL 
 
 First, let's start a Ubuntu terminal. 
 
@@ -31,7 +31,7 @@ conda --version
 
 You should see `conda 23.3.1` printed on screen. 
 
-## 1.2. Install Anaconda in MacOS
+## 1.2. Install Anaconda on MacOS
 
 * If you have an ANU managed device
 
@@ -49,9 +49,13 @@ conda --version
 
 You should see the version number printed on your screen. 
 
-# 2. Install the necessary software packages using conda
+# 2. Create an conda environment and install necessary packages
 
-Normally, when we use conda to install packages, we create different environments for each project. In this way, the packages won't conflict each other and are more organised. 
+## 2.1. Create an conda environment
+
+A conda environment is a self-contained directory that contains a specific collection of software packages, along with the necessary dependencies and their respective versions. 
+
+Using conda environments can avoid conflicts between projects or applications that may require different versions of libraries or dependencies. This isolation ensures that your projects have a consistent and reproducible environment, making it easier to share and collaborate with others. 
 
 In this short course, we will do a small project where we find the variants of some DNA sequencing data of E.coli. This bioinformatic process is called variant calling. So, we can create a new conda environment called `ecoli-vc`, and install the needed packages in this environment. 
 
@@ -69,7 +73,11 @@ After creating the environment, the next step is to activate the environment. If
 conda activate ecoli-vc
 ```
 
-Now, we can start to install packages. There are 5 packages we are going to use in this course, they are FastQC, Trimmomatic, BWA, Samtools, and Bcftools. 
+## 2.2. Install necessary packages in the environment 
+
+After activating the environment, we can start to install packages. There are 5 packages we are going to use for this workflow, they are FastQC, Trimmomatic, BWA, Samtools, and Bcftools. 
+
+The code to install all five packages, please run them line by line: 
 
 ```sh
 conda install -c bioconda fastqc
@@ -119,4 +127,4 @@ IGV is a powerful and widely used visualisation tool for exploring and analysing
 
 We are going to use IGV to look at the results we get from variant calling. 
 
-Go to this [page](https://software.broadinstitute.org/software/igv/download) and pick the right one to download for your device. Choose the one with Jave included. Windows users to download the Windows version not the Linux version. 
+Go to this [page](https://software.broadinstitute.org/software/igv/download) and pick the right one to download for your device. Choose the one with Java included. Windows users to download the Windows version not the Linux version. 
