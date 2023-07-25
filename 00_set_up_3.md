@@ -107,10 +107,10 @@ In your terminal, run the following codes to download the needed files:
 
 ```sh
 # create a new directory where we store the files 
-mkdir -p ~/linux-workshop/data/untrimmed-fastq/
+mkdir -p ~/workshops/variant-calling/raw-fastq/
 
 # go into the directory we just created 
-cd ~/linux-workshop/data/untrimmed-fastq/ 
+cd ~/workshops/variant-calling/raw-fastq/
 
 # curl is a command to download files from the internet 
 wget ftp://ftp.sra.ebi.ac.uk/vol1/fastq/SRR258/004/SRR2589044/SRR2589044_1.fastq.gz
@@ -120,6 +120,8 @@ wget ftp://ftp.sra.ebi.ac.uk/vol1/fastq/SRR258/003/SRR2584863/SRR2584863_2.fastq
 wget ftp://ftp.sra.ebi.ac.uk/vol1/fastq/SRR258/006/SRR2584866/SRR2584866_1.fastq.gz
 wget ftp://ftp.sra.ebi.ac.uk/vol1/fastq/SRR258/006/SRR2584866/SRR2584866_2.fastq.gz
 ```
+
+It takes approximately 15 minutes to finish downloading. 
 
 # 4. Install Integrative Genomics Viewer (IGV)
 
