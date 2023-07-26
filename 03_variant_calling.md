@@ -62,15 +62,43 @@ It was originally developed to bundle a FASTA formatted sequence and its quality
 
 A FASTQ file has four line-separated fields per sequence:
 
-* 
-* 
+* Line 1 begins with a `@` character and is followed by a sequence identifier and an optional description.
+* Line 2 is the raw sequence letters. 
+* Line 3 begins with a `+` character and is optionally followed by the same sequence identifier (and any description) again. 
+* Line 4 encodes the quality values for the sequence in line 2, and must contain the same number of symbols as letters in the sequence. 
+
+We can view the first complete read in one of our files by using head command to look at the first 4 lines:
+
+```sh
+head -n 4 SRR2584863_1.fastq 
+```
+
+And you should see:
+
+![fastq-4-lines](figures/fastq-4-lines.png)
+
+Line 4 shows the quality for each nucleotide in the read, the quality here means the base call accuracy (e.g. 90%). Base calling is the method used to decode the raw signals generated during the sequencing process into the corresponding DNA sequence. 
+
+To make it possible to line up each individual nucleotide with its quality score, the numerical score is converted into a code where it uses letters and special characters to represent the score.
 
 
-# The workflow 
 
-There are 9 steps in this workflow and we will learn it step by step with hands-on coding exercise. 
+
+# Bioinformatic workflow 
+
+When working with high-throughput sequencing data, the raw reads you get off of the sequencer will need to pass through a number of different tools in order to generate your final desired output. The execution of this set of tools in a specified order is commonly referred to as a workflow or a pipeline. 
+
+There are 9 steps for our variant calling workflow, and we will learn it step by step with hands-on coding exercise. 
 
 ![workflow](figures/vc-workflow.png)
 
+## 1. Assessing quality using FastQC 
+
+In real life, you will not 
 
 
+
+# References
+
+* Wikipedia - [FASTQ format](https://en.wikipedia.org/wiki/FASTQ_format) 
+* Data Carpentry - [Data Wrangling and Processing for Genomics](https://datacarpentry.org/wrangling-genomics/index.html)
