@@ -305,7 +305,16 @@ Then follow the path `/home/jiajia/workshops/variant-calling/raw-fastq/` to go t
 
 ### 1.2. Decoding the other FastQC outputs 
 
+We have now looked at a few "Per base sequence quality" FastQC graphs, but there are nine other graphs in the result html file that we have not talked about. Below is a brief overview of interpretations for each of these plots. For more information, please see the FastQC documentation [here](https://www.bioinformatics.babraham.ac.uk/projects/fastqc/Help/).
 
+* [Per tile sequence quality]()
+* [Per sequence quality scores]()
+* [Per base sequence content]()
+* [Per sequence GC content]()
+* [Per base N content](https://www.bioinformatics.babraham.ac.uk/projects/fastqc/Help/3%20Analysis%20Modules/6%20Per%20Base%20N%20Content.html)
+* [Sequence length distribution](https://www.bioinformatics.babraham.ac.uk/projects/fastqc/Help/3%20Analysis%20Modules/7%20Sequence%20Length%20Distribution.html)
+* [Sequence duplication levels]()
+* []
 
 
 
