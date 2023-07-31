@@ -89,7 +89,7 @@ There are 9 steps for our variant calling workflow, and we will learn it step by
 
 ![workflow](figures/vc-workflow.png)
 
-## 1. Assessing quality using FastQC 
+## 1. Assessing reads quality using FastQC 
 
 FastQC aims to provide a simple way to do some quality control checks on raw sequence data coming from high throughput sequencing pipelines. It provides a modular set of analyses which you can use to give a quick impression of whether your data has any problems of which you should be aware before doing any further analysis. 
 
@@ -160,106 +160,7 @@ DESCRIPTION
                     will not create it.  If this option is not set then the
                     output file for each sequence file is created in the same
                     directory as the sequence file which was processed.
-
-    --casava        Files come from raw casava output. Files in the same sample
-                    group (differing only by the group number) will be analysed
-                    as a set rather than individually. Sequences with the filter
-                    flag set in the header will be excluded from the analysis.
-                    Files must have the same names given to them by casava
-                    (including being gzipped and ending with .gz) otherwise they
-                    won't be grouped together correctly.
-
-    --nano          Files come from nanopore sequences and are in fast5 format. In
-                    this mode you can pass in directories to process and the program
-                    will take in all fast5 files within those directories and produce
-                    a single output file from the sequences found in all files.
-
-    --nofilter      If running with --casava then don't remove read flagged by
-                    casava as poor quality when performing the QC analysis.
-
-    --extract       If set then the zipped output file will be uncompressed in
-                    the same directory after it has been created. If --delete is
-                    also specified then the zip file will be removed after the
-                    contents are unzipped.
-
-    -j --java       Provides the full path to the java binary you want to use to
-                    launch fastqc. If not supplied then java is assumed to be in
-                    your path.
-
-    --noextract     Do not uncompress the output file after creating it.  You
-                    should set this option if you do not wish to uncompress
-                    the output when running in non-interactive mode.
-
-    --nogroup       Disable grouping of bases for reads >50bp. All reports will
-                    show data for every base in the read.  WARNING: Using this
-                    option will cause fastqc to crash and burn if you use it on
-                    really long reads, and your plots may end up a ridiculous size.
-                    You have been warned!
-
-    --min_length    Sets an artificial lower limit on the length of the sequence
-                    to be shown in the report.  As long as you set this to a value
-                    greater or equal to your longest read length then this will be
-                    the sequence length used to create your read groups.  This can
-                    be useful for making directly comaparable statistics from
-                    datasets with somewhat variable read lengths.
-
-    --dup_length    Sets a length to which the sequences will be truncated when
-                    defining them to be duplicates, affecting the duplication and
-                    overrepresented sequences plot.  This can be useful if you have
-                    long reads with higher levels of miscalls, or contamination with
-                    adapter dimers containing UMI sequences.
-
-
-    -f --format     Bypasses the normal sequence file format detection and
-                    forces the program to use the specified format.  Valid
-                    formats are bam,sam,bam_mapped,sam_mapped and fastq
-
-
-    --memory        Sets the base amount of memory, in Megabytes, used to process
-                    each file.  Defaults to 512MB.  You may need to increase this if
-                    you have a file with very long sequences in it.
-
-    --svg           Save the graphs in the report in SVG format.
-
-    -t --threads    Specifies the number of files which can be processed
-                    simultaneously.  Each thread will be allocated 250MB of
-                    memory so you shouldn't run more threads than your
-                    available memory will cope with, and not more than
-                    6 threads on a 32 bit machine
-
-    -c              Specifies a non-default file which contains the list of
-    --contaminants  contaminants to screen overrepresented sequences against.
-                    The file must contain sets of named contaminants in the
-                    form name[tab]sequence.  Lines prefixed with a hash will
-                    be ignored.
-
-    -a              Specifies a non-default file which contains the list of
-    --adapters      adapter sequences which will be explicity searched against
-                    the library. The file must contain sets of named adapters
-                    in the form name[tab]sequence.  Lines prefixed with a hash
-                    will be ignored.
-
-    -l              Specifies a non-default file which contains a set of criteria
-    --limits        which will be used to determine the warn/error limits for the
-                    various modules.  This file can also be used to selectively
-                    remove some modules from the output all together.  The format
-                    needs to mirror the default limits.txt file found in the
-                    Configuration folder.
-
-   -k --kmers       Specifies the length of Kmer to look for in the Kmer content
-                    module. Specified Kmer length must be between 2 and 10. Default
-                    length is 7 if not specified.
-
-   -q --quiet       Suppress all progress messages on stdout and only report errors.
-
-   -d --dir         Selects a directory to be used for temporary files written when
-                    generating report images. Defaults to system temp directory if
-                    not specified.
-
-BUGS
-
-    Any bugs in fastqc should be reported either to simon.andrews@babraham.ac.uk
-    or in www.bioinformatics.babraham.ac.uk/bugzilla/
+... 
 ```
 
 The help document usually gives you guidelines about how to use the software. 
@@ -305,18 +206,67 @@ Then follow the path `/home/jiajia/workshops/variant-calling/raw-fastq/` to go t
 
 ### 1.2. Decoding the other FastQC outputs 
 
-We have now looked at a few "Per base sequence quality" FastQC graphs, but there are nine other graphs in the result html file that we have not talked about. Below is a brief overview of interpretations for each of these plots. For more information, please see the FastQC documentation [here](https://www.bioinformatics.babraham.ac.uk/projects/fastqc/Help/).
+We have now looked at a few "Per base sequence quality" FastQC graphs, but there are nine other graphs in the result html file that we have not talked about. 
 
-* [Per tile sequence quality]()
-* [Per sequence quality scores]()
-* [Per base sequence content]()
-* [Per sequence GC content]()
-* [Per base N content](https://www.bioinformatics.babraham.ac.uk/projects/fastqc/Help/3%20Analysis%20Modules/6%20Per%20Base%20N%20Content.html)
-* [Sequence length distribution](https://www.bioinformatics.babraham.ac.uk/projects/fastqc/Help/3%20Analysis%20Modules/7%20Sequence%20Length%20Distribution.html)
-* [Sequence duplication levels]()
-* []
+????????????????????????????
 
+Now we have finished interpreting the html file, we can take a look at the zip files.
 
+Our zip files are compressed files. They each contain multiple different types of output files for a single input FASTQ file. To view the contents of a zip file, we can use the program unzip to decompress these files. Let's try doing them all at once using a wildcard. 
+
+```sh
+unzip *.zip
+```
+
+What output did you get? 
+
+```
+Archive:  SRR2584863_1_fastqc.zip
+caution: filename not matched:  SRR2584863_2_fastqc.zip
+caution: filename not matched:  SRR2584866_1_fastqc.zip
+caution: filename not matched:  SRR2584866_2_fastqc.zip
+caution: filename not matched:  SRR2589044_1_fastqc.zip
+caution: filename not matched:  SRR2589044_2_fastqc.zip
+```
+
+This did not work. This is because `unzip` expects to get only one zip file as input. We could go through and unzip each file one at a time, but this is very time consuming and error-prone. 
+
+__Exercise: use for loop to unzip the 6 zip files.__
+
+When you run the for loop, you will see output that starts like this:
+
+```
+Archive:  SRR2584863_1_fastqc.zip
+   creating: SRR2584863_1_fastqc/
+   creating: SRR2584863_1_fastqc/Icons/
+   creating: SRR2584863_1_fastqc/Images/
+  inflating: SRR2584863_1_fastqc/Icons/fastqc_icon.png
+  inflating: SRR2584863_1_fastqc/Icons/warning.png
+  inflating: SRR2584863_1_fastqc/Icons/error.png
+  inflating: SRR2584863_1_fastqc/Icons/tick.png
+  inflating: SRR2584863_1_fastqc/summary.txt
+  inflating: SRR2584863_1_fastqc/Images/per_base_quality.svg
+  inflating: SRR2584863_1_fastqc/Images/per_base_quality.png
+... 
+```
+
+The unzip program is decompressing the zip files and creating a new directory for it to store all of the different output that are produced by FastQC.
+
+__Exercise: go into one of the output folders and take a look what information they provided there?__
+
+### 1.3. Organising our work 
+
+If you take a look of your `raw-fastq` directory, it is already a little bit messy with many different types of files in. 
+
+__Exercise: to make our working directory clean and organised, create a new directory called `results` under `raw-fastq` and put all the FastQC results in there.__ 
+
+## 2. Trimming and filtering reads using Trimmomatic 
+
+From the FastQC results, we know that some of our samples have failed a few quality metrics. This does not mean that our samples should be thrown out. It is very common to have some quality metrics fail, and this may or may not be a problem for your downstream application. 
+
+For our variant calling workflow, we will remove some of the low quality sequences to reduce out false positive rate due to sequencing error. We will use a program called Trimmomatic to filter poor quality reads and trim poor quality bases from our samples. 
+
+Trimmomatic is a fast, multithreaded command line tool that can be used to trim and crop Illumina (FASTQ) data as well as to remove adapters. These adapters can pose a real problem depending on the library preparation and downstream application. 
 
 
 

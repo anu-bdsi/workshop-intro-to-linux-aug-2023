@@ -89,7 +89,7 @@ conda install -c bioconda bcftools=1.9
 
 You will be prompted with question asking if you want to proceed, type `y` and press `enter` to continue. 
 
-After the process finished, run the following commands to check if the packages have been successfully installed. 
+After the process finished, run the following commands to verify if the packages have been successfully installed. 
 
 ```sh
 fastqc --version
