@@ -2,8 +2,15 @@
 
 ## Learning objectives 
 
-* 
-* 
+* Understand what is variant calling
+* Understand the background of our data 
+* Understand what is paired-end sequencing 
+* Understand the FASTQ file format 
+* Be able to use FastQC to assess the quality of sequencing data 
+* Be able to interpret the FastQC results
+* Be able to use Trimmomatic to remove low quality sequence
+* Be able to use for loop to run Trimmomatic on multiple samples 
+* Understand the importance of organising your working directory
 
 # Variant calling 
 
@@ -206,9 +213,17 @@ Then follow the path `/home/jiajia/workshops/variant-calling/raw-fastq/` to go t
 
 ### 1.2. Decoding the other FastQC outputs 
 
-We have now looked at a few "Per base sequence quality" FastQC graphs, but there are nine other graphs in the result html file that we have not talked about. 
+We have now looked at a few "Per base sequence quality" FastQC graphs, but there are nine other graphs in the result html file that we have not talked about. Below we have provided a brief overview of interpretations for each of these plots. For more information, please see the FastQC documentation [here](https://www.bioinformatics.babraham.ac.uk/projects/fastqc/Help/).
 
-????????????????????????????
+* __[Per tile sequence quality](https://www.bioinformatics.babraham.ac.uk/projects/fastqc/Help/3%20Analysis%20Modules/12%20Per%20Tile%20Sequence%20Quality.html):__ the machines that perform sequencing are divided into tiles. This plot displays patterns in base quality along these tiles. Consistently low scores are often found around the edges, but hot spots can also occur in the middle if an air bubble was introduced at some point during the run.
+* __[Per sequence quality scores](https://www.bioinformatics.babraham.ac.uk/projects/fastqc/Help/3%20Analysis%20Modules/3%20Per%20Sequence%20Quality%20Scores.html):__ a density plot of quality for all reads at all positions. This plot shows what quality scores are most common.
+* __[Per base sequence content](https://www.bioinformatics.babraham.ac.uk/projects/fastqc/Help/3%20Analysis%20Modules/4%20Per%20Base%20Sequence%20Content.html):__ plots the proportion of each base position over all of the reads. Typically, we expect to see each base roughly 25% of the time at each position, but this often fails at the beginning or end of the read due to quality or adapter content.
+* __[Per sequence GC content](https://www.bioinformatics.babraham.ac.uk/projects/fastqc/Help/3%20Analysis%20Modules/5%20Per%20Sequence%20GC%20Content.html):__ a density plot of average GC content in each of the reads.
+* __[Per base N content](https://www.bioinformatics.babraham.ac.uk/projects/fastqc/Help/3%20Analysis%20Modules/6%20Per%20Base%20N%20Content.html):__ the percent of times that ‘N’ occurs at a position in all reads. If there is an increase at a particular position, this might indicate that something went wrong during sequencing.
+* __[Sequence Length Distribution](https://www.bioinformatics.babraham.ac.uk/projects/fastqc/Help/3%20Analysis%20Modules/7%20Sequence%20Length%20Distribution.html):__ the distribution of sequence lengths of all reads in the file. If the data is raw, there is often on sharp peak, however if the reads have been trimmed, there may be a distribution of shorter lengths.
+* __[Sequence Duplication Levels](https://www.bioinformatics.babraham.ac.uk/projects/fastqc/Help/3%20Analysis%20Modules/8%20Duplicate%20Sequences.html):__ A distribution of duplicated sequences. In sequencing, we expect most reads to only occur once. If some sequences are occurring more than once, it might indicate enrichment bias (e.g. from PCR). If the samples are high coverage (or RNA-seq or amplicon), this might not be true.
+* __[Overrepresented sequences](https://www.bioinformatics.babraham.ac.uk/projects/fastqc/Help/3%20Analysis%20Modules/9%20Overrepresented%20Sequences.html):__ A list of sequences that occur more frequently than would be expected by chance.
+* __[Adapter Content](https://www.bioinformatics.babraham.ac.uk/projects/fastqc/Help/3%20Analysis%20Modules/10%20Adapter%20Content.html):__ a graph indicating where adapater sequences occur in the reads.
 
 Now we have finished interpreting the html file, we can take a look at the zip files.
 
@@ -252,7 +267,7 @@ Archive:  SRR2584863_1_fastqc.zip
 
 The unzip program is decompressing the zip files and creating a new directory for it to store all of the different output that are produced by FastQC.
 
-__Exercise: go into one of the output folders and take a look what information they provided there?__
+__Exercise: go into one of the output folders and take a look what information are provided there?__
 
 ### 1.3. Organising our work 
 
@@ -266,11 +281,137 @@ From the FastQC results, we know that some of our samples have failed a few qual
 
 For our variant calling workflow, we will remove some of the low quality sequences to reduce out false positive rate due to sequencing error. We will use a program called Trimmomatic to filter poor quality reads and trim poor quality bases from our samples. 
 
-Trimmomatic is a fast, multithreaded command line tool that can be used to trim and crop Illumina (FASTQ) data as well as to remove adapters. These adapters can pose a real problem depending on the library preparation and downstream application. 
+__Trimmomatic__ is a fast, multithreaded command line tool that can be used to trim and crop Illumina (FASTQ) data as well as to remove adapters. These adapters can pose a real problem depending on the library preparation and downstream application. 
 
+There are two major modes of the program: paired end mode and single end mode. The paired end mode will maintain correspondence of read pairs and also use the additional information contained in paired reads to better find adapter or PCR primer fragments introduced by the library preparation process. 
 
+Trimmomatic has a variety of options to trim your reads. If we run the following command, we can see some of our options. 
+
+```sh
+trimmomatic 
+```
+
+Which will give you the following output: 
+
+```
+Usage:
+       PE [-version] [-threads <threads>] [-phred33|-phred64] [-trimlog <trimLogFile>] [-quiet] [-validatePairs] [-basein <inputBase> | <inputFile1> <inputFile2>] [-baseout <outputBase> | <outputFile1P> <outputFile1U> <outputFile2P> <outputFile2U>] <trimmer1>...
+   or:
+       SE [-version] [-threads <threads>] [-phred33|-phred64] [-trimlog <trimLogFile>] [-quiet] <inputFile> <outputFile> <trimmer1>...
+   or:
+       -version
+```
+
+This output shows us that we must first specify whether we have paired end (PE) or single end (SE) reads. Next, we specify what flag we would like to run. For example, you can specify `-threads` to indicate the number of processors on your computer that you want Trimmomatic to use. In most cases using multiple threads (processors) can help to run the trimming faster. These flags are not necessary, but they can give you more control over the command.
+
+In paired end mode, Trimmomatic expects the two input files, and then the names of the output files. These files are described below. While, in single end mode, Trimmomatic will expect 1 file as input. 
+
+* __\<inputFile1>__: input reads to be trimmed, typically the filename will contain an `_1` or `_R1` in the name. 
+* __\<inputFile2>__: input reads to be trimmed, typically the filename will contain an `_2` or `_R2` in the name.
+* __\<outputFile1P>__: output file that contains surviving pairs from the `_1` file. 
+* __\<outputFile1U>__: output file that contains orphaned reads from the `_1` file. 
+* __\<outputFile2P>__: output file that contains surviving pairs from the `_2` file. 
+* __\<outputFile2U>__: output file that contains orphaned reads from the `_2` file. 
+
+Following the filenames, trimmomatic expects to see is the trimming parameters:
+
+* `ILLUMINACLIP`: perform adapter removal.
+* `SLIDINGWINDOW`: perform sliding window trimming, cutting once the average quality within the window falls below a threshold. 
+* `MINLEN`: drop an entire read if it is below a specified length. 
+
+There are more parameters such as `LEADING`, `TRAILING`, and `CROP` etc., but we will only use `ILLUMINACLIP`, `SLIDINGWINDOW`, and `MINLEN` in our analysis. It is important to understand the steps you are using to clean your data. For more information about the Trimmomatic arguments and options, see the [Trimmomatic manual](http://www.usadellab.org/cms/uploads/supplementary/Trimmomatic/TrimmomaticManual_V0.32.pdf).
+
+A complete command for Trimmomatic will look something like this:
+
+```sh
+trimmomatic PE -threads 4 SRR_1056_1.fastq SRR_1056_2.fastq  \
+              SRR_1056_1.trimmed.fastq SRR_1056_1un.trimmed.fastq \
+              SRR_1056_2.trimmed.fastq SRR_1056_2un.trimmed.fastq \
+              ILLUMINACLIP:SRR_adapters.fa SLIDINGWINDOW:4:20
+```
+
+For each of the component in the command, it means:
+
+* `PE`: tells Trimmomatic that it will be taking paired end files as input.
+* `-threads 4`: use 4 computing threads to run.
+* `SRR_1056_1.fastq`: the first input file.
+* `SRR_1056_2.fastq`: the second input file. 
+* `SRR_1056_1.trimmed.fastq`: the output file for surviving reads from the `_1` file. 
+* `SRR_1056_1un.trimmed.fastq`: the output file for orphaned reads from the `_1` file. 
+* `SRR_1056_2.trimmed.fastq`: the output file for surviving reads from the `_2` file. 
+* `SRR_1056_2un.trimmed.fastq`: the output file for orphaned reads from the `_2` file. 
+* `ILLUMINACLIP:SRR_adapters.fa`: to clip the Illumina adapters from the input file using the adapter sequences listed in `SRR_adapters.fa`.
+* `SLIDINGWINDOW:4:20`: to use a sliding window of size 4 that will remove bases if their phred score is below 20. 
+
+__Multi-line commands__: some of the commands we run in this lesson are long! When typing a long command into your terminal, you can use the `\` character to separate code chunks onto separate lines. This can make our code more readable. 
+
+### 2.1. Running Trimmomatic 
+
+Now we will run Trimmomatic on our data. To begin, navigate to your `raw-fastq` data directory:
+
+```sh
+cd ~/workshops/variant-calling/raw-fastq/
+```
+
+We are going to run Trimmomatic on one of our paired-end samples. While using FastQC we saw that Nextera adapters were present in out samples. The adapter sequences came with the installation of Trimmomatic, so we will first copy these sequences into our current directory. 
+
+```sh
+cp ~/anaconda3/pkgs/trimmomatic-0.36-6/share/trimmomatic-0.36-6/adapters/NexteraPE-PE.fa ./
+```
+
+__Note__: you may not find the adapter file in the exact same location, please go into directory `~/anaconda3/pkgs/` to check which version of Trimmomatic and change the file path.
+
+The trimming parameters that we will apply on our data are:
+
+1. A sliding window of size 4 that will remove bases if their phred score is below 20.
+2. Discard any reads that do not have at least 25 bases remaining after the above step. 
+3. Handle sequences that match with the Nextera adapters using parameter 2:40:15. We won't cover what the numbers mean as it is too advance for this course. 
+
+The code should look like:
+
+```sh
+trimmomatic PE SRR2589044_1.fastq SRR2589044_2.fastq \
+                SRR2589044_1.trim.fastq SRR2589044_1un.trim.fastq \
+                SRR2589044_2.trim.fastq SRR2589044_2un.trim.fastq \
+                SLIDINGWINDOW:4:20 MINLEN:25 ILLUMINACLIP:NexteraPE-PE.fa:2:40:15
+```
+
+It will take a few minutes to run, after finish running you can take a look of the output files. 
+
+We have just successfully run Trimmomatic on one of our FASTQ files. However, we have 2 more samples to do, and in real life we usually have more samples. It would be good if we can use for loop to run this. 
+
+```sh
+for file in *_1.fastq
+do
+base=$(basename ${file} _1.fastq)
+trimmomatic PE ${file} ${base}_2.fastq \
+            ${base}_1.trim.fastq ${base}_1un.trim.fastq \
+            ${base}_2.trim.fastq ${base}_2un.trim.fastq \
+            SLIDINGWINDOW:4:20 MINLEN:25 ILLUMINACLIP:NexteraPE-PE.fa:2:40:15
+done
+```
+
+__Exercise: please explain each line of the code above, use internet resource.__ 
+
+Once it is done running, take a look at your directory contents. You will see there are output files for all of our samples. 
+
+__Question: we have run Trimmomatic on sample `SRR2589044` before, did you get any error for running it again? If not, what do you think has happended?__
+
+We have now completed the trimming and filtering steps of our quality control process. Before we move on, to make our working directory clean and tidy, it is better to move the trimmed fastq files to a new directory. 
+
+```sh
+mkdir ../trimmed-fastq/
+mv *.trim.fastq ../trimmed-fastq/
+cd ../trimmed-fastq
+ls
+```
+
+# Homework
+
+Run FastQC on the trimmed FASTQ files and visualise the HTML files to see whether the quality is higher after trimming. 
 
 # References
 
 * Wikipedia - [FASTQ format](https://en.wikipedia.org/wiki/FASTQ_format) 
 * Data Carpentry - [Data Wrangling and Processing for Genomics](https://datacarpentry.org/wrangling-genomics/index.html)
+* Usadel Lab - [TrimmomaticManual_V0.32](http://www.usadellab.org/cms/uploads/supplementary/Trimmomatic/TrimmomaticManual_V0.32.pdf)
