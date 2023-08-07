@@ -71,7 +71,7 @@ An example command of how to do the alignment is:
 bwa mem [ref_genome] [sample_R1.fastq] [sample_R2.fastq] > [output.sam]
 ```
 
-__Exercise: please run the alignment on sample SRR2584863.__ 
+__Exercise: please run the alignment on sample `SRR2584863`.__ 
 
 It takes about 2 minutes to run. After it finishes running, you will get an output SAM file. 
 
@@ -102,9 +102,7 @@ __Question: why is there 2 lines have the same sequence name?__
 
 ### 3.5. BAM file 
 
-BAM is the compressed binary version of SAM, a compact and index-able representation. The goal of indexing is to retrieve alignments that overlap a specific location quickly without having to go through all of them. Before indexing, BAM must be sorted by reference ID and then leftmost coordinate. 
-
-We will convert the SAM file to BAM format using the `samtools` program with the `view` command and specify the output format in BAM using `-b` option.
+BAM is the compressed binary version of SAM. We will convert the SAM file to BAM format using the `samtools` program with the `view` command and specify the output format in BAM using `-b` option.
 
 ```sh
 samtools view -b [aligned.sam] > [aligned.bam]
@@ -116,13 +114,35 @@ __Exercise: compare the size of the SAM and BAM file, how much the file size has
 
 ### 3.6. Pipe the two steps together 
 
-Normally, to save the disk space we don't keep the SAM file. We can pipe the alignment step and the format change step together and get the BAM file directly. 
+Normally, to save the disk space we don't keep the SAM files. We can pipe the alignment step and the convert format step together to get the BAM file directly. 
 
 ```sh
 bwa mem [ref_genome] [sample_R1.fastq] [sample_R2.fastq] | samtools view -b > [aligned.bam]
 ```
 
 __Exercise: try this method on sample `SRR2584866`.__
+
+### 3.7. Sort BAM file by coordinates 
+
+If you have a look of the previous SAM file, you will find out that the sequences are ordered the same as the fastq file. The reads in fastq files are ordered by the time they go through the sequencing machine. 
+
+In this step, we will sort the BAM file so the sequences are in order of the position they were mapped to the genome from left to right. 
+
+We sort the BAM file using the `sort` command from `samtools`. `-o` tells the command where to write the output. Run this on sample `SRR2584863`. 
+
+```sh
+samtools sort -o [sorted.aligned.bam] [aligned.bam]
+```
+
+This takes about 1 minute to run. 
+
+SAM/BAM files can be sorted in multiple ways, e.g. by location of alignment on the chromosome, by read name, etc. It is important to be aware that different alignment tools will output differently sorted SAM/BAM, and different downstream tools require differently sorted alignment files as input.
+
+For example, the alignment tool BWA-MEM that we used gave us read name sorted file, and the variant calling workflow requires coordinate sorted BAM file as input. 
+
+## 4. Variant calling 
+
+
 
 
 # References
