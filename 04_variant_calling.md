@@ -77,6 +77,12 @@ It takes about 2 minutes to run. After it finishes running, you will get an outp
 
 ### 3.4. SAM file 
 
+SAM stands for Sequence Alignment Map format. It is a TAB-delimited text format consisting of a header section, which is optional, and an alignment section. Header lines start with `@`, while alignment lines do not. Each alignment line has 11 mandatory fields for essential alignment information such as mapping position, and variable number of optional fields for flexible or aligner specific information. 
+
+We can take a look at our SAM file:
+
+__Question: which command do you use to read a file?__ 
+
 ```
 @SQ     SN:CP000819.1   LN:4629812
 @PG     ID:bwa  PN:bwa  VN:0.7.17-r1188 CL:bwa mem ref-genome/ecoli_rel606.fasta trimmed-fastq/SRR2584863_1.trim.fastq trimmed-fastq/SRR2584863_2.trim.fastq
@@ -90,10 +96,36 @@ SRR2584863.8    83      CP000819.1      4263438 60      101M    =       4263359 
 SRR2584863.8    163     CP000819.1      4263359 60      150M    =       4263438 180     CGCCACCACCACCAGAGAACCACAGGCCGAAAGAATACGAATCGGCCCTTGTTTCAGACGGTAAGAGGCCACATCGGCAAAGGTGTAGCGCCCCAGGTTACGCAGACGTTCGGCAATCAGGAACAAAATGATCGGCCAGCCCACCAGGAA        CCCFFFFFHHGHHJIJIIHJJIIJJJJJJJJJIJICHJGIIDEHGIIIEHCHFDDDCC@CB;AB;@C@BDB@DACDD@BDBDD4::A@C5@BDBBD?CDCC<9@.5A@D??B@@BB>>:AACD?BDDBC@CA>?9@9<?BD@2<<8A8AA     NM:i:0   MD:Z:150        MC:Z:101M       AS:i:150        XS:i:0
 ```
 
+We can see that there are 2 header lines then following alignment lines. 
 
- 
+__Question: why is there 2 lines have the same sequence name?__ 
 
+### 3.5. BAM file 
+
+BAM is the compressed binary version of SAM, a compact and index-able representation. The goal of indexing is to retrieve alignments that overlap a specific location quickly without having to go through all of them. Before indexing, BAM must be sorted by reference ID and then leftmost coordinate. 
+
+We will convert the SAM file to BAM format using the `samtools` program with the `view` command and specify the output format in BAM using `-b` option.
+
+```sh
+samtools view -b [aligned.sam] > [aligned.bam]
+```
+
+This takes about 1 minute to run.
+
+__Exercise: compare the size of the SAM and BAM file, how much the file size has decreased?__
+
+### 3.6. Pipe the two steps together 
+
+Normally, to save the disk space we don't keep the SAM file. We can pipe the alignment step and the format change step together and get the BAM file directly. 
+
+```sh
+bwa mem [ref_genome] [sample_R1.fastq] [sample_R2.fastq] | samtools view -b > [aligned.bam]
+```
+
+__Exercise: try this method on sample `SRR2584866`.__
 
 
 # References
 * Data Carpentry - [Data Wrangling and Processing for Genomics](https://datacarpentry.org/wrangling-genomics/index.html)
+* The SAM/BAM Format Specification Working Group - [Sequence Alignment Map Format Specification](https://samtools.github.io/hts-specs/SAMv1.pdf) 
+* Wikipedia - [Binary Alignment Map](https://en.wikipedia.org/wiki/Binary_Alignment_Map) 
