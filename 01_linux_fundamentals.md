@@ -6,7 +6,7 @@
 * Understand the concept of command line interface and terminal
 * Understand the syntax of Linux commands 
 * Understand the Linux file system
-* Be able to use commands to go to different locations in the system
+* Be able to use commands to go to different directories in Linux
 * Be able to use commands to create, delete, copy, move, and rename files and directories
 * Be able to use commands to view and print file contents 
 * Be able to use Linux shortcuts and wild cards 
