@@ -267,16 +267,26 @@ CP000819.1      2333538 .       AT      ATT     228     .       INDEL;IDV=78;IMF
 ...
 ```
 
+Now, there are only variant sites left. 
 
+### 4.3. Filter and report the SNV variants
 
+The above step gave us the result of all variant sites in our sample, but not all the sites have high quality score. In this step, we will filter out low quality variants using `vcfutils.pl varFilter`.
 
+The `vcfutils.pl varFilter` filters out variants that do not meet minimum quality default criteria, which can be changed through its options. 
 
+```sh
+vcfutils.pl varFilter [sample_variants.vcf] > [sample_final_variants.vcf]
+```
 
+Here, we have finished all the steps for variant calling. Next, we are going to use a genome browser to look at our data. 
+
+# Homework
+
+Run the variant calling workflow on the other 2 samples. 
 
 # References
 * Data Carpentry - [Data Wrangling and Processing for Genomics](https://datacarpentry.org/wrangling-genomics/index.html)
 * samtools - [Sequence Alignment Map Format Specification](https://samtools.github.io/hts-specs/SAMv1.pdf) 
 * Wikipedia - [Binary Alignment Map](https://en.wikipedia.org/wiki/Binary_Alignment_Map) 
 * samtools - [The Variant Call Format (VCF) Version 4.2 Specification](http://samtools.github.io/hts-specs/VCFv4.2.pdf)
-
-
