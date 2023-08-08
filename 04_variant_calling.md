@@ -2,8 +2,13 @@
 
 ## Learning objectives 
 
-* 
-* 
+* Understand what is aligning reads to reference genome
+* Understand genome indexing 
+* Understand SAM/BAM file format 
+* Understand the reason of sorting SAM/BAM file by coordinates
+* Understand what is read coverage of positions
+* Understand VCF/BCF file format 
+* Be able to perform each steps of the variant calling workflow 
 
 ## 3. Alignment to a reference genome 
 
