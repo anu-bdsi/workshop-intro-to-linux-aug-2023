@@ -134,15 +134,48 @@ We sort the BAM file using the `sort` command from `samtools`. `-o` tells the co
 samtools sort -o [sorted.aligned.bam] [aligned.bam]
 ```
 
+To better understand the sorted result, we can set the output to SAM file as well. Then we can have a look and compare the sorted SAM with the original one. 
+
+```sh
+samtools sort -o [sorted.aligned.sam] [aligned.bam]
+```
+
+The sorted SAM file should look like this:
+
+```
+@HD     VN:1.6  SO:coordinate
+@SQ     SN:CP000819.1   LN:4629812
+@PG     ID:bwa  PN:bwa  VN:0.7.17-r1188 CL:bwa mem ref-genome/ecoli_rel606.fasta trimmed-fastq/SRR2584863_1.trim.fastq trimmed-fastq/SRR2584863_2.trim.fastq
+SRR2584863.72312        2147    CP000819.1      1       60      116H34M =       4629703 4629812 AGCTTTTCATTCTGACTGCAACGGGCAATATGTC   DDDADDDDDEDDEEEDDDDDCDDBDB<?CCDDDD       NM:i:0  MD:Z:34 MC:Z:110M40H    AS:i:34 XS:i:0  SA:Z:CP000819.1,4629697,+,116M34S,60,0;
+SRR2584863.236239       99      CP000819.1      1       60      55S95M  =       304     453     GCATGATATTGAAAAAAATATCACCAAATAAAAAACGCCTTAGTAAGTATTTTTCAGCTTTTCATTCTGACTGCAACGGGCAATATGTCTCTGTGTGGATTAAAAAAAGAGTGTCTGATAGCAGCTTCTGAACTGGTTACCTGCCGTGAG        @BCFFFFFHHHHHJJJJJIIJJIJJJJIIJJJJJJIGJIJIIIAHGHCFGIJJJIIIHHHHHGHFFFFFBDECACCDDDB=BBCDDEDDEDCDCDDDB>@@>CDDDDBBDCDDACC@@CCCCC:<A@CCCD@@>C>CC@C>A4<8099?B      NM:i:0  MD:Z:95 MC:Z:150M       AS:i:95 XS:i:0  SA:Z:CP000819.1,4629758,+,55M95S,60,0;
+SRR2584863.275624       99      CP000819.1      1       60      14S136M =       145     294     AGTAAGTATTTTTCAGCTTTTCATTCTGACTGCAACGGGCAATATGTCTCTGTGTGGATTAAAAAAAGAGTGTCTGATAGCAGCTTCTGAACTGGTTACCTGCCGTGAGTAAATTAAAATTTTATTGACTTAGGTCACTAAATACTTTAA        @B@FFFBDHHHHHJJIGJJJJJJJJJJJJIJJJJJJIJJJIJIGIGJJJJJJIJFGIHIJJJJJIJHFFFDFEEEEEEEDDDDDDDDDDEDDDDDCDDDDDCBDDBDDDCDDDEEDDDDEDDDEDDDDDDDDDDDDDDDDCDCDDDDEDD      NM:i:0  MD:Z:136        MC:Z:150M       AS:i:136        XS:i:0
+SRR2584863.275984       2209    CP000819.1      1       60      87H63M  =       848     896     AGCTTTTCATTCTGACTGCAACGGGCAATATGTCTCTGTGTGGATTAAAAAAAGAGTGTCTGA       CCCCCCCCCACDDDCCCCCCCCBB>BBBCCCE>>A@A>ACABBC@>>:@>@B@BB<>:@>CCC NM:i:0  MD:Z:63 MC:Z:49M        AS:i:63       XS:i:0  SA:Z:CP000819.1,4629726,+,87M63S,60,0;
+SRR2584863.404450       2209    CP000819.1      1       60      91H59M  =       437     481     AGCTTTTCATTCTGACTGCAACGGGCAATATGTCTCTGTGTGGATTAAAAAAAGAGTGT   DDDDDDCDDEDDEEEDDDDDDCDDDBDDDDCEEDDCCDDDDDDCDCDDCDDDDBDDCDC     NM:i:0  MD:Z:59 MC:Z:45M        AS:i:59 XS:i:SA:Z:CP000819.1,4629722,+,91M59S,60,0;
+SRR2584863.651714       2145    CP000819.1      1       60      95H55M  =       42      175     AGCTTTTCATTCTGACTGCAACGGGCAATATGTCTCTGTGTGGATTAAAAAAAGA       DDDDDDACDEEEEEEDDDDDCDBBD@BDCCDEDDEDDDCD@BDDDDCCDCCB@B? NM:i:0  MD:Z:55 MC:Z:134M       AS:i:55 XS:i:0  SA:Z:CP000819.1,4629718,+,95M55S,60,0;
+SRR2584863.702752       163     CP000819.1      1       60      28S122M =       653     802     ATAAAAAACGCCTTAGTAAGTATTTTTCAGCTTTTCATTCTGACTGCAACGGGCAATATGTCTCTGTGTGGATTAAAAAAAGAGTGTCTGATAGCAGCTTCTGAACTGGTTACCTGCCGTGAGTAAATTAAAATTTTATTGACTTAGGTC        <@BFFFFFHHHHHJIJIJJJHIIJJJJJIJJJJJJHHIIJJJJJJIGIJIJIIJJJJJJJHGHHHHHFDFFFEDECEDDDDBBCACDDDDDEDACDDDDDDDDEDDDCDDDDDDDDBDDDBDDDDDCDEDDDDDCDDDDDCDCDDDDCCD      NM:i:0  MD:Z:122        MC:Z:150M       AS:i:122        XS:i:0
+```
+
 This takes about 1 minute to run. 
 
 SAM/BAM files can be sorted in multiple ways, e.g. by location of alignment on the chromosome, by read name, etc. It is important to be aware that different alignment tools will output differently sorted SAM/BAM, and different downstream tools require differently sorted alignment files as input.
 
-For example, the alignment tool BWA-MEM that we used gave us read name sorted file, and the variant calling workflow requires coordinate sorted BAM file as input. 
+For example, the alignment tool BWA-MEM that we used gave us read name sorted file, and the variant calling requires coordinate sorted BAM file as input. 
 
 ## 4. Variant calling 
 
+A variant call is a conclusion that there is a nucleotide difference compare to the reference genome at a given position, often referred to as a Single Nucleotide Variant (SNV). The call is usually accompanied by an estimate of variant frequency and some measure of confidence. 
 
+Similar to other steps in this workflow, there are a number of tools available for variant calling. We will use `bcftools`. 
+
+There are a few steps we need to do before the actual call of the variants. 
+
+### 4.1. Calculate the read coverage of positions in the genome
+
+This step is to generate a pileup format representation of sequence read data aligned to a reference genome. A pileup format is a textual representation that shows the aligned reads at each position in the reference genome, along with various summary statistics and variant information. 
+
+```
+
+```
 
 
 # References
