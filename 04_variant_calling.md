@@ -131,13 +131,15 @@ In this step, we will sort the BAM file so the sequences are in order of the pos
 We sort the BAM file using the `sort` command from `samtools`. `-o` tells the command where to write the output. Run this on sample `SRR2584863`. 
 
 ```sh
-samtools sort -o [sorted.aligned.bam] [aligned.bam]
+samtools sort -o [aligned.sorted.bam] [aligned.bam]
 ```
 
-To better understand the sorted result, we can set the output to SAM file as well. Then we can have a look and compare the sorted SAM with the original one. 
+This takes about 1 minute to run. 
+
+To better understand the sorted result, we can set the output to SAM file. Then we can have a look and compare the sorted SAM with the original one. 
 
 ```sh
-samtools sort -o [sorted.aligned.sam] [aligned.bam]
+samtools sort -o [aligned.sorted.sam] [aligned.bam]
 ```
 
 The sorted SAM file should look like this:
@@ -155,7 +157,7 @@ SRR2584863.651714       2145    CP000819.1      1       60      95H55M  =       
 SRR2584863.702752       163     CP000819.1      1       60      28S122M =       653     802     ATAAAAAACGCCTTAGTAAGTATTTTTCAGCTTTTCATTCTGACTGCAACGGGCAATATGTCTCTGTGTGGATTAAAAAAAGAGTGTCTGATAGCAGCTTCTGAACTGGTTACCTGCCGTGAGTAAATTAAAATTTTATTGACTTAGGTC        <@BFFFFFHHHHHJIJIJJJHIIJJJJJIJJJJJJHHIIJJJJJJIGIJIJIIJJJJJJJHGHHHHHFDFFFEDECEDDDDBBCACDDDDDEDACDDDDDDDDEDDDCDDDDDDDDBDDDBDDDDDCDEDDDDDCDDDDDCDCDDDDCCD      NM:i:0  MD:Z:122        MC:Z:150M       AS:i:122        XS:i:0
 ```
 
-This takes about 1 minute to run. 
+You can see that the lines are ordered by the position in the chromosome rather than the read names. 
 
 SAM/BAM files can be sorted in multiple ways, e.g. by location of alignment on the chromosome, by read name, etc. It is important to be aware that different alignment tools will output differently sorted SAM/BAM, and different downstream tools require differently sorted alignment files as input.
 
@@ -171,14 +173,58 @@ There are a few steps we need to do before the actual call of the variants.
 
 ### 4.1. Calculate the read coverage of positions in the genome
 
-This step is to generate a pileup format representation of sequence read data aligned to a reference genome. A pileup format is a textual representation that shows the aligned reads at each position in the reference genome, along with various summary statistics and variant information. 
+This step is to generate a pileup format representation of sequence read data aligned to the reference genome. A pileup format is a textual representation that shows the aligned reads at each position in the reference genome, along with various summary statistics and variant information. 
 
+We will use the `mpileup` command from `bcftools`. The flag `-O v` tells bcftools to generate a VCF format output, `-o` specifies where to write the output file, and `-f` tells the path to the reference genome. 
+
+The Variant Call Format (VCF) is a text file format (most likely stored in a compressed manner). It contains meta-information lines, a header line, and then data lines each containing information about a position in the genome. The format also has the ability to contain genotype information on samples for each position. 
+
+```sh 
+bcftools mpileup -O v -o [sample_raw.vcf] -f [reg_genome] [aligned.sorted.bam]
 ```
 
+It takes about 10 minutes to run. Your result VCF file should look like this:
+
 ```
+##fileformat=VCFv4.2
+##FILTER=<ID=PASS,Description="All filters passed">
+##bcftoolsVersion=1.9+htslib-1.9
+##bcftoolsCommand=mpileup -O v -o vcf/SRR2584863_raw.vcf -f ../ref-genome/ecoli_rel606.fasta bam/SRR2584863.sorted.aligned.bam
+##reference=file://../ref-genome/ecoli_rel606.fasta
+##contig=<ID=CP000819.1,length=4629812>
+##ALT=<ID=*,Description="Represents allele(s) other than observed.">
+##INFO=<ID=INDEL,Number=0,Type=Flag,Description="Indicates that the variant is an INDEL.">
+##INFO=<ID=IDV,Number=1,Type=Integer,Description="Maximum number of reads supporting an indel">
+##INFO=<ID=IMF,Number=1,Type=Float,Description="Maximum fraction of reads supporting an indel">
+##INFO=<ID=DP,Number=1,Type=Integer,Description="Raw read depth">
+##INFO=<ID=VDB,Number=1,Type=Float,Description="Variant Distance Bias for filtering splice-site artefacts in RNA-seq data (bigger is better)",Version="3">
+##INFO=<ID=RPB,Number=1,Type=Float,Description="Mann-Whitney U test of Read Position Bias (bigger is better)">
+##INFO=<ID=MQB,Number=1,Type=Float,Description="Mann-Whitney U test of Mapping Quality Bias (bigger is better)">
+##INFO=<ID=BQB,Number=1,Type=Float,Description="Mann-Whitney U test of Base Quality Bias (bigger is better)">
+##INFO=<ID=MQSB,Number=1,Type=Float,Description="Mann-Whitney U test of Mapping Quality vs Strand Bias (bigger is better)">
+##INFO=<ID=SGB,Number=1,Type=Float,Description="Segregation based metric.">
+##INFO=<ID=MQ0F,Number=1,Type=Float,Description="Fraction of MQ0 reads (smaller is better)">
+##INFO=<ID=I16,Number=16,Type=Float,Description="Auxiliary tag used for calling, see description of bcf_callret1_t in bam2bcf.h">
+##INFO=<ID=QS,Number=R,Type=Float,Description="Auxiliary tag used for calling">
+##FORMAT=<ID=PL,Number=G,Type=Integer,Description="List of Phred-scaled genotype likelihoods">
+#CHROM  POS     ID      REF     ALT     QUAL    FILTER  INFO    FORMAT  bam/SRR2584863.sorted.aligned.bam
+CP000819.1      1       .       A       <*>     0       .       DP=27;I16=1,18,0,0,676,24074,0,0,1140,68400,0,0,0,0,0,0;QS=1,0;MQSB=1;MQ0F=0  PL      0,57,229
+CP000819.1      2       .       G       <*>     0       .       DP=27;I16=2,18,0,0,745,28387,0,0,1200,72000,0,0,26,68,0,0;QS=1,0;MQSB=1;MQ0F=0        PL      0,60,255
+CP000819.1      3       .       C       <*>     0       .       DP=27;I16=2,18,0,0,736,27594,0,0,1200,72000,0,0,46,140,0,0;QS=1,0;MQSB=1;MQ0F=0       PL      0,60,255
+CP000819.1      4       .       T       <*>     0       .       DP=27;I16=2,18,0,0,741,27889,0,0,1200,72000,0,0,66,252,0,0;QS=1,0;MQSB=1;MQ0F=0       PL      0,60,255
+CP000819.1      5       .       T       <*>     0       .       DP=27;I16=2,18,0,0,754,28670,0,0,1200,72000,0,0,86,404,0,0;QS=1,0;MQSB=1;MQ0F=0       PL      0,60,255
+CP000819.1      6       .       T       <*>     0       .       DP=27;I16=2,18,0,0,778,30440,0,0,1200,72000,0,0,106,596,0,0;QS=1,0;MQSB=1;MQ0F=0      PL      0,60,255
+CP000819.1      7       .       T       <*>     0       .       DP=27;I16=2,18,0,0,763,29341,0,0,1200,72000,0,0,126,828,0,0;QS=1,0;MQSB=1;MQ0F=0      PL      0,60,255
+CP000819.1      8       .       C       <*>     0       .       DP=27;I16=2,18,0,0,786,30962,0,0,1200,72000,0,0,146,1100,0,0;QS=1,0;MQSB=1;MQ0F=0     PL      0,60,255
+```
+
+
 
 
 # References
 * Data Carpentry - [Data Wrangling and Processing for Genomics](https://datacarpentry.org/wrangling-genomics/index.html)
-* The SAM/BAM Format Specification Working Group - [Sequence Alignment Map Format Specification](https://samtools.github.io/hts-specs/SAMv1.pdf) 
+* samtools - [Sequence Alignment Map Format Specification](https://samtools.github.io/hts-specs/SAMv1.pdf) 
 * Wikipedia - [Binary Alignment Map](https://en.wikipedia.org/wiki/Binary_Alignment_Map) 
+* samtools - [The Variant Call Format (VCF) Version 4.2 Specification](http://samtools.github.io/hts-specs/VCFv4.2.pdf)
+
+
