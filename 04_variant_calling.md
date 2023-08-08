@@ -94,6 +94,7 @@ SRR2584863.7    83      CP000819.1      2562378 60      64M     =       2561695 
 SRR2584863.7    163     CP000819.1      2561695 60      40M     =       2562378 747     GGGCCATTCACCACGCAGCCGATAATCGAAACGTCCATCG     ;?<ABDDDHDHFFGGI@GGBBGGEHEGGG9D<GFGCDH)< NM:i:0  MD:Z:40 MC:Z:64M        AS:i:40 XS:i:0
 SRR2584863.8    83      CP000819.1      4263438 60      101M    =       4263359 -180    AAGGTGTAGCGCCCCAGGTTACGCAGACGTTCGGCAATCAGGAACAAAATGATCGGCCAGCCCACCAGGAAGCCCAGCGAGTAAATTAAGCCGTCATAGCC CA3?>95555<5DB?4:@<<5@@<?<8?@@@>CCCCCACECECFFDFFFDB:GHHGBHDEEGD9IJIGIGIHEJIGIIIGJJIJJJJJHHHHHFFFFFBC@ NM:i:0  MD:Z:101        MC:Z:150M       AS:i:101        XS:i:0
 SRR2584863.8    163     CP000819.1      4263359 60      150M    =       4263438 180     CGCCACCACCACCAGAGAACCACAGGCCGAAAGAATACGAATCGGCCCTTGTTTCAGACGGTAAGAGGCCACATCGGCAAAGGTGTAGCGCCCCAGGTTACGCAGACGTTCGGCAATCAGGAACAAAATGATCGGCCAGCCCACCAGGAA        CCCFFFFFHHGHHJIJIIHJJIIJJJJJJJJJIJICHJGIIDEHGIIIEHCHFDDDCC@CB;AB;@C@BDB@DACDD@BDBDD4::A@C5@BDBBD?CDCC<9@.5A@D??B@@BB>>:AACD?BDDBC@CA>?9@9<?BD@2<<8A8AA     NM:i:0   MD:Z:150        MC:Z:101M       AS:i:150        XS:i:0
+...
 ```
 
 We can see that there are 2 header lines then following alignment lines. 
@@ -155,6 +156,7 @@ SRR2584863.275984       2209    CP000819.1      1       60      87H63M  =       
 SRR2584863.404450       2209    CP000819.1      1       60      91H59M  =       437     481     AGCTTTTCATTCTGACTGCAACGGGCAATATGTCTCTGTGTGGATTAAAAAAAGAGTGT   DDDDDDCDDEDDEEEDDDDDDCDDDBDDDDCEEDDCCDDDDDDCDCDDCDDDDBDDCDC     NM:i:0  MD:Z:59 MC:Z:45M        AS:i:59 XS:i:SA:Z:CP000819.1,4629722,+,91M59S,60,0;
 SRR2584863.651714       2145    CP000819.1      1       60      95H55M  =       42      175     AGCTTTTCATTCTGACTGCAACGGGCAATATGTCTCTGTGTGGATTAAAAAAAGA       DDDDDDACDEEEEEEDDDDDCDBBD@BDCCDEDDEDDDCD@BDDDDCCDCCB@B? NM:i:0  MD:Z:55 MC:Z:134M       AS:i:55 XS:i:0  SA:Z:CP000819.1,4629718,+,95M55S,60,0;
 SRR2584863.702752       163     CP000819.1      1       60      28S122M =       653     802     ATAAAAAACGCCTTAGTAAGTATTTTTCAGCTTTTCATTCTGACTGCAACGGGCAATATGTCTCTGTGTGGATTAAAAAAAGAGTGTCTGATAGCAGCTTCTGAACTGGTTACCTGCCGTGAGTAAATTAAAATTTTATTGACTTAGGTC        <@BFFFFFHHHHHJIJIJJJHIIJJJJJIJJJJJJHHIIJJJJJJIGIJIJIIJJJJJJJHGHHHHHFDFFFEDECEDDDDBBCACDDDDDEDACDDDDDDDDEDDDCDDDDDDDDBDDDBDDDDDCDEDDDDDCDDDDDCDCDDDDCCD      NM:i:0  MD:Z:122        MC:Z:150M       AS:i:122        XS:i:0
+...
 ```
 
 You can see that the lines are ordered by the position in the chromosome rather than the read names. 
@@ -216,7 +218,57 @@ CP000819.1      5       .       T       <*>     0       .       DP=27;I16=2,18,0
 CP000819.1      6       .       T       <*>     0       .       DP=27;I16=2,18,0,0,778,30440,0,0,1200,72000,0,0,106,596,0,0;QS=1,0;MQSB=1;MQ0F=0      PL      0,60,255
 CP000819.1      7       .       T       <*>     0       .       DP=27;I16=2,18,0,0,763,29341,0,0,1200,72000,0,0,126,828,0,0;QS=1,0;MQSB=1;MQ0F=0      PL      0,60,255
 CP000819.1      8       .       C       <*>     0       .       DP=27;I16=2,18,0,0,786,30962,0,0,1200,72000,0,0,146,1100,0,0;QS=1,0;MQSB=1;MQ0F=0     PL      0,60,255
+...
 ```
+
+Where it stores the information start from the first base of the reference genome. 
+
+* `CHROM` - chromosome
+* `POS` - position: the reference position, with the 1st base having position 1. 
+* `ID` - identifier
+* `REF` - reference base
+* `ALT` - alternate base 
+* `QUAL` - quality score 
+* `FILTER` - filter status: PASS if this position has passed all filters (a call is made at this position).
+* `INFO` - additional information 
+
+__Exercise: read more about the vcf file and try to find any alternate bases.__
+
+Like the alignment steps, we don't normally need to read the coverage information so it would be good we can also output this information to a binary file to reduce the storage space used. 
+
+__Exercise: read the documentation of `bcftools mpileup` to see if you can make the output into a binary format? If can please do so.__ 
+
+### 4.2. Detect the single nucleotide variants (SNVs)
+
+The above step we only calculated the read coverage but didn't do anything about it, so it contains everything on every position of the genome. As we can see from the VCF file, most of the positions don't have an alternate base. 
+
+In this step, we will use `bcftools call` to identify SNVs. We need to specify ploidy with the flag `--ploidy`, `-m` allows for multiallelic and rare-variant calling, `-v` to output variant sites only, and `-o` specifies where to write the output file.
+
+```sh
+bcftools call --ploidy 1 -m -v -o [sample_variants.vcf] [sample_raw.bcf]
+```
+
+The variants VCF file should look like this:
+
+```
+...
+#CHROM  POS     ID      REF     ALT     QUAL    FILTER  INFO    FORMAT  bam/SRR2584863.sorted.aligned.bam
+CP000819.1      9972    .       T       G       225     .       DP=81;VDB=0.387587;SGB=-0.693147;MQSB=1;MQ0F=0;AC=1;AN=1;DP4=0,0,31,48;MQ=60  GT:PL   1:255,0
+CP000819.1      263235  .       G       T       228     .       DP=65;VDB=0.00108727;SGB=-0.693146;RPB=0.0433688;MQB=3.80355e-08;MQSB=0.368447;BQB=0.00167695;MQ0F=0.246154;AC=1;AN=1;DP4=10,6,15,27;MQ=28    GT:PL   1:255,0
+CP000819.1      281923  .       G       T       225     .       DP=69;VDB=0.0125476;SGB=-0.693147;MQSB=1;MQ0F=0;AC=1;AN=1;DP4=0,0,40,24;MQ=60 GT:PL   1:255,0
+CP000819.1      377000  .       T       G       228     .       DP=60;VDB=0.575301;SGB=-0.693146;RPB=0.467702;MQB=1.73175e-07;MQSB=0.239114;BQB=0.319368;MQ0F=0.233333;AC=1;AN=1;DP4=12,2,22,21;MQ=30 GT:PL   1:255,0
+CP000819.1      433359  .       CTTTTTTT        CTTTTTTTT       116     .       INDEL;IDV=73;IMF=0.948052;DP=77;VDB=0.0026231;SGB=-0.693147;MQSB=1;MQ0F=0;AC=1;AN=1;DP4=1,3,25,48;MQ=60       GT:PL   1:143,0
+CP000819.1      473901  .       CCGC    CCGCGC  228     .       INDEL;IDV=68;IMF=0.944444;DP=72;VDB=0.802322;SGB=-0.693147;MQSB=1;MQ0F=0;AC=1;AN=1;DP4=2,1,21,48;MQ=60        GT:PL   1:255,0
+CP000819.1      648692  .       C       T       225     .       DP=84;VDB=0.151313;SGB=-0.693147;MQSB=1;MQ0F=0;AC=1;AN=1;DP4=0,0,58,21;MQ=60  GT:PL   1:255,0
+CP000819.1      1331794 .       C       A       225     .       DP=54;VDB=0.330798;SGB=-0.693147;MQSB=1;MQ0F=0;AC=1;AN=1;DP4=0,0,27,25;MQ=60  GT:PL   1:255,0
+CP000819.1      1733343 .       G       A       225     .       DP=95;VDB=0.996142;SGB=-0.693147;MQSB=1;MQ0F=0;AC=1;AN=1;DP4=0,0,47,44;MQ=60  GT:PL   1:255,0
+CP000819.1      2103887 .       ACAGCCAGCCAGCCAGCCAGCCAGCCAGCCAG        ACAGCCAGCCAGCCAGCCAGCCAGCCAGCCAGCCAGCCAGCCAGCCAGCCAGCCAG     7.30276  .       INDEL;IDV=12;IMF=0.444444;DP=27;VDB=0.969575;SGB=-0.686358;MQSB=0.951472;MQ0F=0;AC=1;AN=1;DP4=9,4,4,10;MQ=58    GT:PL1:255,221
+CP000819.1      2333538 .       AT      ATT     228     .       INDEL;IDV=78;IMF=0.962963;DP=81;VDB=0.283362;SGB=-0.693147;MQSB=1;MQ0F=0;AC=1;AN=1;DP4=0,9,40,32;MQ=60        GT:PL   1:255,0
+...
+```
+
+
+
 
 
 
