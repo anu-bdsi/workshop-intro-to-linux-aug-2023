@@ -4,7 +4,7 @@ This GitHub page contains course materials for the short Linux training course h
 
 # Date & Time 
 
-3-5pm on 14th, 16th, 21st, 23rd, 28th, 30th of August 2023.
+3 to 5pm (AEST) on 14th, 16th, 21st, 23rd, 28th, 30th of August 2023.
 
 # Location
 
