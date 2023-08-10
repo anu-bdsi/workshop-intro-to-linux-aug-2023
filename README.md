@@ -1,6 +1,6 @@
 # Introduction to Linux - Aug 2023
 
-This GitHub page contains information and course materials for the short Linux training course that is hosted by the Biological Data Science Institute and Research School of Biology. 
+This GitHub page contains course materials for the short Linux training course hosted by the Biological Data Science Institute and Research School of Biology.
 
 # Date & Time 
 
@@ -16,10 +16,15 @@ Research School of Biology
 
 Also on Zoom, access via this [Link](https://anu.zoom.us/j/86410494597?pwd=a3VJeU02NmN5WnVJcGcrVnU3ZUdpUT09). 
 
-# Class Schedule
+# Schedule
 
-Each class has a notebook on this page with t
+Each workshop has a Markdown notebook and we will refer to it for teaching and live coding. 
 
-* Class 1 - Linux 
+* Workshop 1 & 2 - Linux Fundamentals
+* Workshop 3 & 4 - The Variant Calling Workflow 
+* Workshop 5 - Visualisation of the result and writing of a script 
+* Workshop 6 - Introduction to the RSB computing cluster and job scheduling
 
+# Contact
 
+Any questions please email jiajia.li1@anu.edu.au 
