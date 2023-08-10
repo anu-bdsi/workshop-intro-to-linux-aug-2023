@@ -1,4 +1,4 @@
-# Introduction to Linux - Aug 2023
+# README
 
 This GitHub page contains course materials for the short Linux training course hosted by the Biological Data Science Institute and Research School of Biology.
 
