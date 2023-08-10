@@ -284,6 +284,12 @@ The `vcfutils.pl varFilter` filters out variants that do not meet minimum qualit
 vcfutils.pl varFilter [sample_variants.vcf] > [sample_final_variants.vcf]
 ```
 
+Let's take a look of our final result, it should only contain the filtered variants.
+
+__Exercise: take a guess of how many variants left?__
+
+__Exercise: how can you count it using the vcf file?__
+
 Here, we have finished all the steps for variant calling. Next, we are going to use a genome browser to look at our data. 
 
 # Homework

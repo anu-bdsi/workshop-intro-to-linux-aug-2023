@@ -101,7 +101,7 @@ bcftools --version
 
 # 3. Download data
 
-The data we are going to work with in this workshop is DNA sequencing data from E.coli, it is part of a long-term evolution experiment led by [Richard Lenski](https://en.wikipedia.org/wiki/E._coli_long-term_evolution_experiment). We will talk more background about the data later in this course. 
+The data we are going to work with in this workshop is DNA sequencing data from E.coli, it is part of a long-term evolution experiment led by [Richard Lenski](https://en.wikipedia.org/wiki/E._coli_long-term_evolution_experiment). We will talk more background about the data later in the class. 
 
 In your terminal, run the following codes to download the needed files:
 
