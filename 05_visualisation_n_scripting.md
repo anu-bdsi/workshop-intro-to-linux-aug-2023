@@ -2,8 +2,13 @@
 
 ## Learning objectives 
 
-* 
-* 
+* Understand what is a genome browser and what it does
+* Be able to index BAM files
+* Be able to load reference genome, vcf files, and BAM files into IGV
+* Be able to understand the meaning of different tracks and components
+* Understand what is a shell script and what it does
+* Be able to write and run a shell script 
+* Be able to combine the variant calling workflow into a single script 
 
 ## 1. Viewing the variant calling results in a genome browser
 
@@ -118,7 +123,7 @@ __Did you notice that I've used some `$` and some `$` with `{}`, why? Try remove
 
 # Homework
 
-Write a shell script for the variant calling workflow, from the very beginning quality control until got the final variants. Use for loop to loop through samples when necessary. 
+Write a shell script for the variant calling workflow, from the very beginning quality control until you get the final variants. Use for loop to loop through samples when necessary. 
 
 # References 
 
