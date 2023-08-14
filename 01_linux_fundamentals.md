@@ -15,7 +15,21 @@
 
 ## What is Linux? 
 
-Linux is a free and open-source operating system that is widely used in various computing devices, from personal computers to servers, mobile devices, embedded systems, and more. It was created by Linux Torvalds in 1991 and is based on the Unix operating system. Popular Linux distributions include Debian, Fedora Linux, and Ubuntu. 
+Linux is a free and open-source operating system that is widely used in various computing devices. 
+
+People often asking "Who is using Linux? I don't see Linux in our life". __(Do you know who is using Linux?)__ 
+
+Linux is everywhere, from personal computers to servers, mobile devices, embedded systems, and more. It was created by Linux Torvalds in 1991 and is based on the Unix operating system. Popular Linux distributions include Ubuntu, Debian, Fedora, Redhat, and CentOS. 
+
+## What is Unix?
+
+You might have heard a lot about Unix, and it is used a lot interchangeably with Linux. But do you understand the relationships between them? 
+
+Unix is a family of multitasking, multiuser computer operating systems originally developed in the 1960s and 1970s at AT&T's Bell Labs. It was designed to be a versatile and powerful operating system for mainframe and later, personal computers. Unix-like operating systems have since been developed and used in various forms, with Linux being one of the most well-known derivatives.
+
+So, Unix is like the parent of Linux. __(Do you know any other Unix-like operating systems?)__
+
+Remember when I asked you to set up your laptop before this class, the MacOS users don't need to do anything and they can use it as Linux directly. __Why is it?__ 
 
 ## Linux in biology research 
 
@@ -23,7 +37,7 @@ Linux is extensively used in biology research due to its versatility, robustness
 
 __Bioinformatics__: Linux offers a wide range of powerful tools and software packages for tasks such as sequence alignment, variant calling, genome assembly, gene expression analysis, next-generation sequencing analysis and more. Popular tools include BLAST, Bowtie, SAMtools, BWA, and Genome Analysis Toolkit (GATK). Linux is also popular in the field of molecular modelling, molecular dynamics simulations, and drug discovery. Software packages like GROMACS, AMBER, AutoDock, and VMD are widely used on Linux for tasks such as protein structure prediction, ligand docking, and virtual screening. 
 
-__High-performance computing (HPC) and cluster computing__: Linux is the dominant operating system in the field of high-performance computing. It is commonly used on supercomputers and computing clusters for running computationally intensive bioinformatics analyses, simulations, and large-scale data processing tasks. 
+__High-performance computing (HPC)__: Linux is the dominant operating system in the field of high-performance computing. It is commonly used on computer clusters for running computationally intensive bioinformatics analyses, simulations, and large-scale data processing tasks. 
 
 __Server and web hosting__: Linux-based servers are widely used for hosting biological databases, online bioinformatics tools, and web-based resources for researchers and the scientific community.
 
