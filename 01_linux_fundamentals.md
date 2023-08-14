@@ -2,7 +2,7 @@
 
 ## Learning objectives 
 
-* Understand what is Linux and why do we need to use it in biology research
+* Understand what is Linux and how can we use it in biology research
 * Understand the concept of command line interface and terminal
 * Understand the syntax of Linux commands 
 * Understand the Linux file system
@@ -47,7 +47,7 @@ A command-line interface is a text-based interface used to interact with a compu
 
 In a CLI, users typically enter commands as text strings followed by pressing the Enter/Return key to execute the command. These commands are interpreted by the operating system or software, which then performs the requested actions or provides the desired information. 
 
-__Please open a new terminal__
+__Please open a new terminal.__
 
 You may see something like this:
 
@@ -83,7 +83,7 @@ A Linux command is usually composed of 3 different parts, and they are separated
 * __Option/Flag__: to add functions on the command to perform the task slightly differently. 
 * __Argument__: a file/location which we want our command to perform on. 
 
-__Please try the command in the above image__ 
+__Please try the command in the above image.__ 
 
 * Options and arguments are optional for some commands, some commands can run only by itself. For example, you can run `ls` just by itself. 
 * You can use more than one options for a command. For example, `ls -F -a` also works. 
@@ -136,11 +136,11 @@ This command lists all the things in your current directory.
 
 For now, it will return nothing for you because you are a new user and haven't create anything under your home directory. As we mentioned above, we can put a path as the argument to `ls` to list all the things under that path. 
 
-__Use `ls /` to list everything under the root directory__
+__Use `ls /` to list everything under the root directory.__
 
 ![ls-root](figures/ls-root.png)
 
-__Exercise: list everything under the `/home` directory__
+__Exercise: list everything under the `/home` directory.__
 
 `ls` has many useful options to look at out files with more details. I'll list a few here:
 
@@ -157,7 +157,7 @@ You can combine two options together and type it in this way: `ls -al`, it means
 
 By default, the file sizes shown are in bytes format, we can use the option `-h` in `ls` to make it shows in KBs, MBs, and GBs. 
 
-![ls-alh](figures/ls-alh.png)
+__Exercise: list all files including hidden files in long format and human readable size.__ 
 
 ## `cd` - Change Directory 
 
@@ -172,7 +172,7 @@ Then, go back to your home directory using `cd ~`.
 
 ## `mkdir` - Make Directory 
 
-This command lets you create an empty directory. 
+This command lets you create a new directory. 
 
 This command takes a new directory name as the argument. For example, to create a new directory named `variant-calling` under our current directory, we can use the command `mkdir variant-calling`. 
 
@@ -180,7 +180,7 @@ This command takes a new directory name as the argument. For example, to create 
 
 This command lets you create empty files, it takes the file name as the argument. For example, if I want to create a new empty file called `new_file.txt` I can run `touch new_file.txt`.
 
-__Exercise: change directory to `variant-calling` and create a new file called `new_file.txt`__
+__Exercise: change directory to `variant-calling` and create a new file called `new_file.txt`.__
 
 After we create the new empty file, how do we edit it like we edit it in Windows/MacOS? 
 
@@ -196,11 +196,13 @@ Like in Windows and MacOS, Linux also has many different types of text editors a
 
 In here, you can type the things you want. 
 
-At the bottom of the interface, there are some shortcuts for functions. `^G` means pressing `ctrl` key and `G` key together to get the help manual. In the manual, there is a list of shortcuts for different functions. 
+At the bottom of the interface, there are some shortcuts for functions. 
 
-__Type something in the file__
+`^G` means pressing `ctrl` key and `G` key together to get the help manual, and `M-U` means pressing `alt/cmd` and `U` keys togehter. In the help manual, there is a list of shortcuts for different functions. 
 
-To save and exit the editor, use `^X` shortcut. You will be prompted with 2 questions. 
+__Type something in the file.__
+
+To save and exit the editor, use the `^X` shortcut. You will be prompted with 2 questions. 
 
 The first question would ask you "Save Modified Buffer?", it's asking you if you want to save the things you have edited. Press `y` or `n` to answer.
 
