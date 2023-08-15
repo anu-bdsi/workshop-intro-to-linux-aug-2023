@@ -105,7 +105,7 @@ There are options to only display one data:
 
 `uniq` allows you to remove duplicates of presorted files. 
 
-We won't use these commands in our course but they are very useful. If you would like to learn more about them, you can use the `--help` option to read the manual or watch tutorials online. 
+We won't use these commands in our course but they are very useful. If you would like to learn more about them, you can read the help manual or watch tutorials online. 
 
 ## `grep` - Global regular expression print 
 
@@ -216,7 +216,7 @@ For more functionality of `sed`, you can use `--help` to read the manual.
 This command allows you to download files from http/https/ftp addresses. For example:
 
 ```sh
-wget ftp://ftp.sra.ebi.ac.uk/vol1/fastq/SRR258/004/SRR2589044/SRR2589044_1.fastq.gz 
+curl -O ftp://ftp.sra.ebi.ac.uk/vol1/fastq/SRR258/004/SRR2589044/SRR2589044_1.fastq.gz 
 ```
 
 downloads a zipped fasta file from a ftp address. 
