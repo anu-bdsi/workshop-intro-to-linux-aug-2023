@@ -89,11 +89,17 @@ __Please try the command in the above image.__
 * You can use more than one options for a command. For example, `ls -F -a` also works. 
 * It is also possible to have more than one argument for a command, but it depends on commands. For example, `ls -F / /mnt` works as well. 
 
-# Linux file system 
+# Linux and MacOS file system 
 
 File system is the structure and organisation of files and directories. In Linux, the files system starts from the root directory `/` and branches out into subdirectories and files. 
 
+For Linux systems, your file system would look similar to this:
+
 ![linux-file-system](https://cdn-wordpress-info.futurelearn.com/info/wp-content/uploads/a2794f8f-b0c1-468d-89c6-bcf29d2d6517-1.png) 
+
+For Mac users, your file system would look similar to this:
+
+![mac-file-system](https://www.oreilly.com/api/v2/epubs/9781449328962/files/httpatomoreillycomsourceoreillyimages1448104.png) 
 
 Because there is no graphic user interface (GUI) for Linux, we can imagine a tree-like organisation to help us understand the relationships between directories. 
 
@@ -233,8 +239,8 @@ This command allows you to view the contents of a file in a scrollable manner, e
 First, let's download a large file for us to view. 
 
 ```sh
-# wget is a command to download files from the internet 
-wget https://zenodo.org/record/3736457/files/1_control_18S_2019_minq7.fastq
+# curl is a command to download files from the internet 
+curl -O https://zenodo.org/record/3736457/files/1_control_18S_2019_minq7.fastq
 ```
 
 The downloading process should look like this:
@@ -313,11 +319,21 @@ The `-r` option with `cp` allows you to copy a directories with everything insid
 
 # Some useful tricks in Linux 
 
-## `--help` - Getting help with a command 
+## `man` and `--help` - Getting help with a command 
 
-If you want to learn a new command or if you forgot the options for a command, you can use the `--help` option to read the manual. 
+If you want to learn a new command or if you forgot the options for a command, you can use `man` and `--help` to read the help manual of a command. For MacOS users, only `man` is available. 
 
-For example, if I want to learn more about how to use `ls`, I can run `ls --help`.
+For example, if I want to learn more about how to use `ls` command, I can run `man ls` or `ls --help`.
+
+### `man ls`
+
+`man` allows you to go into a file reader and you need to scroll to read the file and press `q` if you want to exit. 
+
+![man-ls](figures/man-ls.png)
+
+### `ls --help` 
+
+`ls` will print all the information on the screen. 
 
 ![ls-help](figures/ls-help.png)
 
