@@ -30,14 +30,6 @@ cat < sample_1.fastq
 
 works the same as `cat sample_1.fastq` which prints the file contents on the screen. 
 
-And there is a command called `mail` in Linux which can send emails, we can redirect a file as the email content to this command rather than type everything in the command line. 
-
-```sh 
-mail -s "Subject" email@address < email.txt 
-```
-
-__Please create the `email.txt` file by yourself.__
-
 ## `>` - Output redirection 
 
 We can redirect the output to a file using the `>` symbol. For example:
