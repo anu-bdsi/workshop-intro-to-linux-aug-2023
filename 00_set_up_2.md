@@ -121,7 +121,7 @@ samtools --version
 bcftools --version
 ```
 
-## Downloading Data
+## Downloading Data (both MacOS and WSL)
 
 The data we are going to work with in this workshop is DNA sequencing data from E.coli, it is part of a long-term evolution experiment led by [Richard Lenski](https://en.wikipedia.org/wiki/E._coli_long-term_evolution_experiment). We will talk more background about the data later in the class. 
 
