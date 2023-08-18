@@ -1,8 +1,44 @@
-# 1. Install Anaconda
+# Setting Up for The Variant Calling Workflow    
+
+1. Install Anaconda
+2. Create an conda environment
+3. Install packages using conda 
+4. Download data 
+5. Install IGV 
+
+## About Anaconda 
 
 Anaconda is an open-source package management system and environment management system commonly used in data science, scientific computing, and machine learning projects. It allows you to install, update, and manage software packages and dependencies for your projects. It supports packages written in various programming languages, with a focus on Python packages. 
 
-## 1.1. Install Anaconda on WSL 
+## Install Anaconda on MacOS 
+
+__If you have an ANU managed MacOS:__ 
+
+You can download Anaconda from the university software manager. 
+
+__If you have a personal MacOS:__ 
+
+Go to this [website](https://www.anaconda.com/download#downloads) and pick the suitable installer for your device, please choose the graphical installer. 
+
+For graphical installer, choose the following option:
+
+1. Introduction - `Continue`
+2. Read Me - `Continue`
+3. Licence - `Continue` then `Agree`
+4. Destination Select - `Install for me only`
+5. Installation Type - `Install` then an Anaconda window will pop up
+6. Code in the Cloud - `Continue` 
+7. Summary - `Close`
+
+After installation, open a new terminal and run the following code to check if Anaconda has been successfully installed. 
+
+```sh
+conda --version 
+```
+
+You should see the version number printed on your screen. 
+
+## Install Anaconda on WSL 
 
 First, let's start a Ubuntu terminal. 
 
@@ -31,27 +67,7 @@ conda --version
 
 You should see `conda 23.3.1` printed on screen. 
 
-## 1.2. Install Anaconda on MacOS
-
-* If you have an ANU managed device
-
-You can download Anaconda from the university software manager. 
-
-* If you have a personal laptop
-
-Go to this [website](https://www.anaconda.com/download#downloads) and pick the suitable installer for your device, you can pick either graphical or command line installer. I recommend people without command line experience to use the graphical installer. 
-
-After installation, open a new terminal and run the following code to check if Anaconda has been successfully installed. 
-
-```sh
-conda --version 
-```
-
-You should see the version number printed on your screen. 
-
-# 2. Create an conda environment and install necessary packages
-
-## 2.1. Create an conda environment
+## About conda environments 
 
 A conda environment is a self-contained directory that contains a specific collection of software packages, along with the necessary dependencies and their respective versions. 
 
@@ -59,8 +75,9 @@ Using conda environments can avoid conflicts between projects or applications th
 
 In this short course, we will do a small project where we find the variants of some DNA sequencing data of E.coli. This bioinformatic process is called variant calling. So, we can create a new conda environment called `ecoli-vc`, and install the needed packages in this environment. 
 
+## Create an conda environment (both MacOS and WSL)
+
 ```sh
-# to create a new conda environment
 conda create --name ecoli-vc
 ```
 
@@ -69,11 +86,16 @@ You will be prompted with a question asking if you want to proceed, type `y` and
 After creating the environment, the next step is to activate the environment. If we don't activate the environment, we can't use the software we installed in it nor to install something into the environment. 
 
 ```sh
-# to activate the environment we just created
 conda activate ecoli-vc
 ```
 
-## 2.2. Install necessary packages in the environment 
+__For MacOS with Apple M1/M2 chips, there is one additional step:__
+
+```sh
+conda config --env --set subdir osx-64
+```
+
+## Install packages using conda (both MacOS and WSL) 
 
 After activating the environment, we can start to install packages. There are 5 packages we are going to use for this workflow, they are FastQC, Trimmomatic, BWA, Samtools, and Bcftools. 
 
@@ -99,7 +121,7 @@ samtools --version
 bcftools --version
 ```
 
-# 3. Download data
+## Downloading Data
 
 The data we are going to work with in this workshop is DNA sequencing data from E.coli, it is part of a long-term evolution experiment led by [Richard Lenski](https://en.wikipedia.org/wiki/E._coli_long-term_evolution_experiment). We will talk more background about the data later in the class. 
 
@@ -123,9 +145,9 @@ curl -O ftp://ftp.sra.ebi.ac.uk/vol1/fastq/SRR258/006/SRR2584866/SRR2584866_2.fa
 
 It takes approximately 15 minutes to finish downloading. 
 
-# 4. Install Integrative Genomics Viewer (IGV)
+## Install IGV (both MacOS and WSL)
 
-IGV is a powerful and widely used visualisation tool for exploring and analysing genomic data, it allows researchers to interactively visualise and analyse various types of genomic data, including DNA sequencing data, gene expression data, epigenetic data, and more. 
+Integrative Genomics Viewer (IGV) is a powerful and widely used visualisation tool for exploring and analysing genomic data, it allows researchers to interactively visualise and analyse various types of genomic data, including DNA sequencing data, gene expression data, epigenetic data, and more. 
 
 We are going to use IGV to look at the results we get from variant calling. 
 
