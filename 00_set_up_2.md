@@ -20,7 +20,7 @@ __If you have a personal MacOS:__
 
 Go to this [website](https://www.anaconda.com/download#downloads) and pick the suitable installer for your device, please choose the graphical installer. 
 
-For graphical installer, choose the following option:
+Instuctions when installing:
 
 1. Introduction - `Continue`
 2. Read Me - `Continue`
