@@ -16,9 +16,7 @@
 
 ## What is variant calling?
 
-Variant calling is a bioinformatics process used in genomics to identify genetic variations between the genome of an individual and a reference genome. These variations can include single-nucleotide polymorphisms (SNPs), small insertions and deletions (indels), and larger structural variants. 
-
-In this workshop, our variant calling workflow will only detect SNPs. For finding indels or larger structural variants, the workflow will change a bit. 
+Variant calling is a bioinformatics process used in genomics to identify genetic variations between the genome of an individual and a reference genome. These variations can include single-nucleotide polymorphisms (SNPs), small insertions and deletions (indels), and larger structural variants.  
 
 ![SNPs](figures/snp-quick-ref.jpg)
 
@@ -30,36 +28,35 @@ In this workshop, our variant calling workflow will only detect SNPs. For findin
 
 We will be working with 3 sample events from the Ara-3 strain of this experiment, one from 5,000 generations, one from 15,000 generations, and one from 50,000 generations. The population changed substantially during the course of the experiment, and we will be exploring how with our variant calling workflow. 
 
+__Q: What do you expect the trend to be for the number of variants of the 3 samples?__ 
+
 We have downloaded the files, and it should be in our `~/workshops/variant-calling/raw-fastq/` directory. Let's go into that directory and have a look.
 
-```sh
-cd ~/workshops/variant-calling/raw-fastq/
-ls
-```
+__Exercise: please go to directory `~/workshops/variant-calling/raw-fastq` and list the files.__
 
 You should see:
 
 ![fastq-gz-files](figures/fastq-gz-files.png)
 
-You might notice that our fastq files have the .gz extension behind, it means it's a compressed file and we need to decompress it. The command for decompress a .gz file is `gunzip`. 
+You might notice that our fastq files have the `.gz` extension behind, anyone knows the meaning of it? 
 
-To decompress all of our 6 files:
+__Search on the internet what does `.gz` means? What is the command to decompress `.gz` files?__
 
-```sh
-gunzip *.fastq.gz
-```
+__Exercise: please decompress all 6 files in one line of code.__ 
 
-As we learned the last time, `*` wild card can represent filenames, and we can use it to decompress 6 files in one line of command. It takes several minutes to run. After it finish running, you can use `ls` to check the decompressed files. 
+Your result should look like: 
 
 ![decompressed](figures/decompressed-files.png)
 
-Then, we can use the `ls -lh` to have a look of how big is our files. 
+__Exercise: check the size of the decompressed files.__ 
+
+Your result should look like: 
 
 ![file-size](figures/file-size.png)
 
 ## Paired-end sequencing 
 
-You might notice that our files contain `_1` and `_2` in the filename, and before that the filenames are the same. It means our sample were sequenced from both ends and it came out as two separate files. In the analysis, we use both of the files. 
+You might notice that our files contain `_1` and `_2` in the filename, and before that the filenames are the same. It means our sample were sequenced from both ends and it came out as two separate files. In the analysis, we will use both of the files. 
 
 ## FASTQ file format 
 
