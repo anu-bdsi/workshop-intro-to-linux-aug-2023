@@ -388,7 +388,49 @@ trimmomatic PE ${file} ${base}_2.fastq \
 done
 ```
 
-__Exercise: please explain each line of the code above, use internet resource.__ 
+__Exercise: please explain each line of the code above, use internet resource.__
+
+If you are confused about the example, I have another one if it's easier to understand.
+
+```sh
+for i in SRR2584863 SRR2584866 SRR2589044
+do
+fastq1=${i}_1.fastq
+fastq2=${i}_2.fastq
+trim1=${i}_1.trim.fastq
+trim2=${i}_2.trim.fastq
+untrim1=${i}_1un.trim.fastq
+untrim2=${i}_2un.trim.fastq
+
+trimmomatic PE $fastq1 $fastq2 \
+                $trim1 $untrim1 \
+                $trim2 $untrim2 \
+                SLIDINGWINDOW:4:20 MINLEN:25 ILLUMINACLIP:NexteraPE-PE.fa:2:40:15
+
+done
+```
+
+The above example works with small amount of samples, if you have a larger sample size, you can write the for loop in this way:
+
+```sh
+for i in *_1.fastq
+do
+base=$(basename $i _1.fastq)
+
+fastq1=${base}_1.fastq
+fastq2=${base}_2.fastq
+trim1=${base}_1.trim.fastq
+trim2=${base}_2.trim.fastq
+untrim1=${base}_1un.trim.fastq
+untrim2=${base}_2un.trim.fastq
+
+trimmomatic PE $fastq1 $fastq2 \
+                $trim1 $untrim1 \
+                $trim2 $untrim2 \
+                SLIDINGWINDOW:4:20 MINLEN:25 ILLUMINACLIP:NexteraPE-PE.fa:2:40:15
+
+done
+```
 
 Once it is done running, take a look at your directory contents. You will see there are output files for all of our samples. 
 
