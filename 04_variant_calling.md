@@ -50,7 +50,7 @@ __Q: what does `-p` mean?__
 
 The first step of aligning reads to reference genome is to index the genome. Indexing allows the aligner to quickly find potential alignment sites for query sequences in a genome, which saves time during alignment. 
 
-Indexing only needs to be run once. Because when you index a reference genome, it will generate a few result files, and the result files store all the indexing information. The generated files are always and will not disappear if you don't delete it. 
+Indexing only needs to be run once. Because when you index a reference genome, it will generate a few result files, and the result files store all the indexing information. The generated files are always there and will not disappear if you don't delete it. 
 
 The only reason you would want to create a new index is if you are working with a different reference genome or you are using a different alignment tool. 
 
@@ -60,9 +60,9 @@ The command to index a reference genome is:
 bwa index [genome_file]
 ```
 
-__Exercise: index the *E. coli* REL606 genome.__ 
+__Please index the *E. coli* REL606 genome.__ 
 
-What result did you see? Did you get any output files? What are they? 
+__Q: Did you get any output files? What are they?__
 
 ### 3.3. Aligning reads to reference genome 
 
@@ -74,7 +74,7 @@ An example command of how to do the alignment is:
 bwa mem [ref_genome] [sample_R1.fastq] [sample_R2.fastq] > [output.sam]
 ```
 
-__Exercise: please run the alignment on sample `SRR2584863`.__ 
+__Please run the alignment on sample `SRR2584863`.__ 
 
 It takes about 2 minutes to run. After it finishes running, you will get an output SAM file. 
 
@@ -82,9 +82,7 @@ It takes about 2 minutes to run. After it finishes running, you will get an outp
 
 SAM stands for Sequence Alignment Map format. It is a TAB-delimited text format consisting of a header section, which is optional, and an alignment section. Header lines start with `@`, while alignment lines do not. Each alignment line has 11 mandatory fields for essential alignment information such as mapping position, and variable number of optional fields for flexible or aligner specific information. 
 
-We can take a look at our SAM file:
-
-__Question: which command do you use to read a file?__ 
+We can take a look at our SAM file: 
 
 ```
 @SQ     SN:CP000819.1   LN:4629812
@@ -100,9 +98,9 @@ SRR2584863.8    163     CP000819.1      4263359 60      150M    =       4263438 
 ...
 ```
 
-We can see that there are 2 header lines then following alignment lines. 
+We can see that there are 2 header lines then following with alignment lines. 
 
-__Question: why is there 2 lines have the same sequence name?__ 
+__Q: why is there 2 lines have the same sequence name?__ 
 
 ### 3.5. BAM file 
 
@@ -114,7 +112,7 @@ samtools view -b [aligned.sam] > [aligned.bam]
 
 This takes about 1 minute to run.
 
-__Exercise: compare the size of the SAM and BAM file, how much the file size has decreased?__
+__Please compare the size of the SAM and BAM file, how much the file size has decreased?__
 
 ### 3.6. Pipe the two steps together 
 
@@ -124,7 +122,7 @@ Normally, to save the disk space we don't keep the SAM files. We can pipe the al
 bwa mem [ref_genome] [sample_R1.fastq] [sample_R2.fastq] | samtools view -b > [aligned.bam]
 ```
 
-__Exercise: try this method on sample `SRR2584863`.__
+__Please try this method on sample `SRR2584866`.__
 
 ### 3.7. Sort BAM file by coordinates 
 
@@ -235,11 +233,9 @@ Where it stores the information start from the first base of the reference genom
 * `FILTER` - filter status: PASS if this position has passed all filters (a call is made at this position).
 * `INFO` - additional information 
 
-__Exercise: read more about the vcf file and try to find any alternate bases.__
-
 Like the alignment steps, we don't normally need to read the coverage information so it would be good we can also output this information to a binary file to reduce the storage space used. 
 
-__Exercise: read the documentation of `bcftools mpileup` to see if you can make the output into a binary format? If can please do so.__ 
+__Please read the documentation of `bcftools mpileup` to see if you can make the output into a binary format? If can please do so.__ 
 
 ### 4.2. Detect the single nucleotide variants (SNVs)
 
