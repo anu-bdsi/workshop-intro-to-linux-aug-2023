@@ -32,7 +32,7 @@ First we need to download the reference genome.
 ```sh
 mkdir -p ~/workshops/variant-calling/ref-genome
 cd ~/workshops/variant-calling/ref-genome
-curl -O ftp://ftp.ncbi.nlm.nih.gov/genomes/all/GCA/000/017/985/GCA_000017985.1_ASM1798v1/GCA_000017985.1_ASM1798v1_genomic.fna.gz
+curl -O https://ftp.ncbi.nlm.nih.gov/genomes/all/GCA/000/017/985/GCA_000017985.1_ASM1798v1/
 mv GCA_000017985.1_ASM1798v1_genomic.fna.gz ecoli_rel606.fasta.gz
 gunzip ecoli_rel606.fasta.gz
 ```
