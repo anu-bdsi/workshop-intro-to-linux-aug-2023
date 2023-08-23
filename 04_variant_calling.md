@@ -29,8 +29,6 @@ The alignment process consists of two steps:
 
 First we need to download the reference genome. 
 
-*Type these step by step, make sure you understand what we are doing each step. Use `tab` key to auto-complete.*
-
 ```sh
 mkdir -p ~/workshops/variant-calling/ref-genome
 cd ~/workshops/variant-calling/ref-genome
@@ -46,7 +44,7 @@ cd ~/workshops/variant-calling/
 mkdir -p results/sam results/bam results/bcf results/vcf 
 ```
 
-__Did you notice any difference between the above code and the previous mkdir commands we ran?__
+__Q: what does `-p` mean?__
 
 ### 3.2. Indexing the reference genome 
 
@@ -126,7 +124,7 @@ Normally, to save the disk space we don't keep the SAM files. We can pipe the al
 bwa mem [ref_genome] [sample_R1.fastq] [sample_R2.fastq] | samtools view -b > [aligned.bam]
 ```
 
-__Exercise: try this method on sample `SRR2584866`.__
+__Exercise: try this method on sample `SRR2584863`.__
 
 ### 3.7. Sort BAM file by coordinates 
 

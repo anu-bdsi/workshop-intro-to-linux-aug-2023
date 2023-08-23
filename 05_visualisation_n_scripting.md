@@ -113,13 +113,11 @@ __Exercise: use `SRR2584863` as an example, from the alignment step to final var
 For example, you can use a shorter name to represent your file name:
 
 ```sh
-ref_genome=./ref-genome/ecoli_rel606.fasta
+ref_genome=~/workshops/variant-calling/ref-genome/ecoli_rel606.fasta
 sample="SRR2584863"
 
 bwa mem $ref_genome ./trimmed-fastq/${sample}_1.trim.fastq ./trimmed-fastq/${sample}_2.trim.fastq > results/sam/$sample.aligned.sam
 ```
-
-__Did you notice that I've used some `$` and some `$` with `{}`, why? Try remove the `{}` and run it again.__  
 
 # Homework
 
