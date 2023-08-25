@@ -24,32 +24,21 @@
 #SBATCH --mail-user=email_address
 #SBATCH --mail-type=ALL
 
-# path to your home directory 
 HOME_DIR=/mnt/data/dayhoff/home/u_id
 
-# activate conda environment
-# /opt/conda/bin/activate is the source file for the function `conda activate`
-source /opt/conda/bin/activate $HOME_DIR/.conda/envs/env_name 
+
 ```
 
 ## Writing a shell script for variant calling 
 
-First, we need to create a new directory to store all of our scripts. 
-
-```sh
-mkdir -p ~/intro_to_linux/scripts 
-cd ~/intro_to_linux/scripts 
-```
-
-Create a new file called ```variant_calling.sh```, and input the following codes, change the path and emaill address accordingly for the SBATCH headings: 
+Create a new file called `variant_calling.sh`, and input the following codes, change the path and emaill address accordingly for the SBATCH headings: 
 
 ```sh
 #!/bin/bash 
 #SBATCH --job-name=variant_calling 
-#SBATCH --output=/mnt/data/dayhoff/home/u_id/intro_to_linux/variant_calling.out
-#SBATCH --error=/mnt/data/dayhoff/home/u_id/intro_to_linux/variant_calling.err
+#SBATCH --output=/mnt/data/dayhoff/home/u_id/workshops/variant-calling/variant_calling.out
+#SBATCH --error=/mnt/data/dayhoff/home/u_id/workshops/variant-calling/variant_calling.err
 #SBATCH --partition=Standard
-#SBATCH --exclude=wright,fisher
 #SBATCH --time=120
 #SBATCH --mem=5G
 #SBATCH --nodes=1
@@ -61,47 +50,61 @@ Create a new file called ```variant_calling.sh```, and input the following codes
 
 set -e
 
-mkdir -p ~/intro_to_linux/data/trimmed_fastq
-outdir=~/intro_to_linux/data/trimmed_fastq
+source /opt/conda/bin/activate /mnt/data/dayhoff/u_id/.conda/envs/ecoli-vc
 
-cd ~/intro_to_linux/data/untrimmed_fastq
+home_dir=~/workshops/variant-calling
 
-for infile in *_1.fastq.gz 
+raw_dir=${home_dir}/raw-fastq
+trimmed_dir=${home_dir}/trimmed-fastq
+results_dir=${home_dir}/results
+
+mkdir -p ${trimmed_dir} ${results_dir}
+
+sam_dir=${results_dir}/sam
+bam_dir=${results_dir}/bam
+bcf_dir=${results_dir}/bcf
+vcf_dir=${results_dir}/vcf
+
+mkdir -p ${sam_dir} ${bam_dir} ${bcf_dir} ${vcf_dir}
+
+genome=${home_dir}/ref-genome/ecoli_rel606.fasta 
+
+bwa index $genome
+
+for i in ${raw_dir}/*_1.fastq
 do 
-    echo "Trimming file $infile"
-    base=$(basename ${infile} _1.fastq.gz)
-    trimmomatic PE -threads 2 $infile ${base}_2.fastq.gz \
-                    ${outdir}/${base}_1.trim.fastq.gz ${outdir}/${base}_1un.trim.fastq.gz \
-                    ${outdir}/${base}_2.trim.fastq.gz ${outdir}/${base}_2un.trim.fastq.gz \
+    base=$(basename $i _1.fastq)
+
+    echo "Trimming sample $base"
+
+    fq1=${raw_dir}/${base}_1.fastq
+    fq2=${raw_dir}/${base}_2.fastq
+    trimmed_fq1=${trimmed_dir}/${base}_1.trim.fastq
+    trimmed_fq2=${trimmed_dir}/${base}_2.trim.fastq
+    removed_fq1=${trimmed_dir}/${base}_1un.trim.fastq
+    removed_fq2=${trimmed_dir}/${base}_2un.trim.fastq
+
+    trimmomatic PE -threads 4 $fq1 $fq2 \
+                    $trimmed_fq1 $removed_fq1 \
+                    $trimmed_fq2 $removed_fq2 \
                     SLIDINGWINDOW:4:20 MINLEN:25 ILLUMINACLIP:NexteraPE-PE.fa:2:40:15
-done 
 
-genome=~/intro_to_linux/data/ref_genome/ecoli_rel606.fasta 
+    echo "Aligning sample $base"
 
-#bwa index $genome 
+    sam=${sam_dir}/${base}.aligned.sam
+    bam=${bam_dir}/${base}.aligned.bam
+    sorted_bam=${bam_dir}/${base}.aligned.sorted.bam 
+    raw_bcf=${bcf_dir}/${base}_raw.bcf 
+    variants=${vcf_dir}/${base}_variants.vcf 
+    final_variants=${vcf_dir}/${base}_final_variants.vcf 
 
-cd ~/intro_to_linux/results
-#mkdir -p sam bam bcf vcf 
-
-for fq1 in ${outdir}/*_1.trim.fastq.gz
-do 
-    echo "Working with file $fq1"
-    base=$(basename $fq1 _1.trim.fastq.gz) 
-
-    fq1=~/intro_to_linux/data/trimmed_fastq/${base}_1.trim.fastq.gz
-    fq2=~/intro_to_linux/data/trimmed_fastq/${base}_2.trim.fastq.gz
-    sam=~/intro_to_linux/results/sam/${base}.aligned.sam
-    bam=~/intro_to_linux/results/bam/${base}.aligned.bam
-    sorted_bam=~/intro_to_linux/results/bam/${base}.aligned.sorted.bam 
-    raw_bcf=~/intro_to_linux/results/bcf/${base}_raw.bcf 
-    variants=~/intro_to_linux/results/vcf/${base}_variants.vcf 
-    final_variants=~/intro_to_linux/results/vcf/${base}_final_variants.vcf 
-
-    bwa mem -t 2 $genome $fq1 $fq2 > $sam
-    samtools view -S -b $sam > $bam 
+    bwa mem -t 4 $genome $trimmed_fq1 $trimmed_fq2 | samtools view -S -b > $bam 
     samtools sort -o $sorted_bam $bam 
     samtools index $sorted_bam 
-    bcftools mpileup -O b -o $raw_bcf -f $genome $sorted_bam 
+
+    echo "Calling variants for sample $base"
+
+    bcftools mpileup --threads 4 -O b -o $raw_bcf -f $genome $sorted_bam 
     bcftools call --ploidy 1 -m -v -o $variants $raw_bcf 
     vcfutils.pl varFilter $variants > $final_variants 
 done
