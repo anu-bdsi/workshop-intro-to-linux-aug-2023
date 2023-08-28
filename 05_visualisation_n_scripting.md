@@ -9,6 +9,7 @@
 * Understand what is a shell script and what it does
 * Be able to write and run a shell script 
 * Be able to combine the variant calling workflow into a single script 
+* Be able to connect to a remote server via ssh 
 
 ## 1. Viewing the variant calling results in a genome browser
 
@@ -61,67 +62,107 @@ Did you find anything interesting?
 
 For more information about IGV, you can read this [page](https://software.broadinstitute.org/software/igv/AlignmentData). 
 
-## 2. Writing a shell script for the variant calling workflow 
+## 2. Shell Script 
 
 A shell script is a text file that allows you to combine your sequence of commands together and run it all at once. If you have the need to run the same commands repeatedly, it is a good idea to consider writing a shell script so you can use it the next time. 
 
-Like Python or R, a shell script can contain parameters and comments. 
+We use `.sh` extensions to represent shell script. 
 
-### 2.1. A simple shell script
+There are 3 steps included to write and run a shell script:
 
-First, let's write a simple shell script to learn all the elements we need for successfully running a shell script. In this script, we will write a interactive conversation between the user and computer. 
+* Create a new file
+* Write the code
+* Run the script 
 
-__1. Create a new text file__
-
-As we learned before, we can use `nano` to create new files and input text in. 
+__1. Create a new file__
 
 ```sh
 cd ~/workshops/variant-calling
-nano simple_script.sh
+nano first_script.sh
 ```
 
-__2. Write the code__
+__2. Write the code__ 
 
-Because we want to write a interactive conversation it means we need to get information from user so the program can interact with them. To get input from user, we can use the command `read`, it takes parameter name as the argument. Try:
+We are going to create an interactive conversation for this script. 
+
+Please input the following code to the file:
 
 ```sh
-read variable_1
+echo "Hello!"
+sleep 1 
+echo "I'm Ubuntu. What's your name?"
+sleep 1
+read NAME
+sleep 1
+echo "Hello $NAME, nice to meet you!"
 ```
 
-It will prompt to you an empty line and you can type text in and hit `enter`.
-
-To use the information stored to that parameter, we can type `variable_1`. Try:
+The `sleep` command introduces a pause in the execution of a script, the system basically sleep for a period of time before execute the next command. 
 
 ```sh
-echo $variable_1
+sleep 5 # pause for 5 seconds
+sleep 2m # pause for 2 minutes
+sleep 1h30m # pause for 1 hour and 30 minutes 
+sleep 1d # pause for 1 day 
 ```
 
-You should get whatever you input printed on the screen. 
+The `read` command reads input from a user and assign it to a variable.
 
-__Exercise: use `echo` and `read` to create an interactive conversation and type it into the script, and save and exit the script.__ 
+__3. Run the script__ 
 
-__3. Running the script__
-
-To run the script, all we need to do is run `sh [path/to/script]` in the command line. Please run the script you just wrote. 
-
-You should be prompted with questions and got answers from the computer based on how many code you've written in the script. But overall, you get an idea of how this script running process works.
-
-### 2.2. Write a script for the variant calling workflow. 
-
-__Exercise: use `SRR2584863` as an example, from the alignment step to final variants, combine all the commands needed into a script. Try use variables to make your code look simple.__ 
-
-For example, you can use a shorter name to represent your file name:
+To run the script, first we need to save the script. Then we can run:
 
 ```sh
-ref_genome=~/workshops/variant-calling/ref-genome/ecoli_rel606.fasta
-sample="SRR2584863"
-
-bwa mem $ref_genome ./trimmed-fastq/${sample}_1.trim.fastq ./trimmed-fastq/${sample}_2.trim.fastq > results/sam/$sample.aligned.sam
+sh [/path/to/file]
 ```
+
+__Exercise: try run `first_script.sh`.__
+
+## 3. Writing a script for the variant calling workflow 
+
+Now we have learned all the necessary steps to write and run a shell script. Please use sample `SRR2589044` as example, write every step of the workflow and put them into a shell script and run it. 
+
+## 4. Connect to RSB computing cluster 
+
+In order to connect to the RSB server, you have to connect to the School Intranet using GlobalProtect VPN or you are connecting via a school EtherPort. 
+
+### `ssh` - Secure Shell
+
+The `ssh` command is used for secure remote access to a remote system or server over a network. It provides encrypted communication between the client and the server. The command to connect to a remote server is:
+
+```sh
+ssh [username@hostname]
+```
+
+__Please connect to our school server Wright (the hostname will be provided in the class).__ 
+
+__Please set up the conda environment on Wright, Anaconda is installed on server so you don't need to install it.__ 
 
 # Homework
 
-Write a shell script for the variant calling workflow, from the very beginning quality control until you get the final variants. Use for loop to loop through samples when necessary. 
+Write a shell script for the variant calling workflow, from the very beginning quality control until you get the final variants. Use for loop to loop through samples. 
+
+Remember when we ran the trimming and filtering step of the workflow, we used for loop to run all our samples at once. I have changed a little bit of the script to make it look neat. 
+
+```sh
+for i in *_1.fastq
+do
+base=$(basename $i _1.fastq)
+
+fastq1=${base}_1.fastq
+fastq2=${base}_2.fastq
+trim1=${base}_1.trim.fastq
+trim2=${base}_2.trim.fastq
+untrim1=${base}_1un.trim.fastq
+untrim2=${base}_2un.trim.fastq
+
+trimmomatic PE $fastq1 $fastq2 \
+                $trim1 $untrim1 \
+                $trim2 $untrim2 \
+                SLIDINGWINDOW:4:20 MINLEN:25 ILLUMINACLIP:NexteraPE-PE.fa:2:40:15
+
+done
+```
 
 # References 
 
