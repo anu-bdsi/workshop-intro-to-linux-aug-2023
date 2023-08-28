@@ -281,23 +281,7 @@ wait
 
 Using sbatch to submit the job and compare the result with parallel processing. 
 
-# IGV 
 
-There are a few things we need to use IGV to view the variants:
-
-* The reference genome: ```ecoli_rel606.fasta```.
-* The BAM file ```SRR2584866.aligned.sorted.bam``` and the BAM index file ```SRR2584866.aligned.sorted.bam.bai```.
-* The VCF file ```SRR2584866_final_variants.vcf```. 
-
-We need to download these files to our laptop and load it through IGV, use ```scp``` to download files from the server. 
-
-After downloading the files, open IGV:
-
-1. Load the reference genome.
-2. Load the BAM file. 
-3. Load the VCF file. 
-
-Then you can see the variants result. 
 
 # References 
 

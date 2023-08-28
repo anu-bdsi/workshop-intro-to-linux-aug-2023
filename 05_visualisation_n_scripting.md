@@ -17,11 +17,9 @@ A genome browser is a graphical interface for displaying information for genomic
 
 The [Integrative Genomics Viewer](https://software.broadinstitute.org/software/igv/) (IGV) is a stand-alone browser, which has the advantage of being installed locally and providing fast access. Web-based genome browsers, like [Ensembl](https://www.ensembl.org/index.html) or the [UCSC browser](https://genome.ucsc.edu/), are slower, but provide more functionality.
 
-It is often instructive to look at your data in a genome browser. Visualisation will allow you to get a "feel" for the data, as well as detecting abnormalities and problems. Also, exploring the data in such a way may give you ideas for further analyses.
+It is often instructive to look at your data in a genome browser. Visualisation will allow you to get a "feel" for the data, as well as detecting abnormalities and problems. Also, exploring the data in such a way may give you ideas for further analyses. 
 
-For example, the variant calling software can't always detect large insertions. It often shows as a bump on the coverage track. 
-
-### 1.1. Indexing BAM file
+__1. Index the BAM files__
 
 IGV requires that BAM files have an associated index file. We can use `index` command from SAMtools. 
 
@@ -31,7 +29,7 @@ samtools index [aligned.sorted.bam]
 
 __Exercise: please index all 3 samples.__ 
 
-### 1.2. Load files into IGV 
+__2. Load files into IGV__
 
 Next, we can start to visualise our data. 
 
@@ -50,13 +48,19 @@ Try zoom in using the scale at the top-right corner to inspect the variants. It 
 
 ![igv-result-zoom](figures/igv-result-zoom.png)
 
-__Exercise: try click different components and see what information you get?__
+__3. Track colours__
 
-### 1.3. Import multiple samples
+There are some tracks in the browser show in different colours. They can have different meanings. You can right click the track and change the colour settings. 
+
+![igv-colour](figures/igv-colour.png)
+
+You can read more about different colour settings [here](https://software.broadinstitute.org/software/igv/AlignmentData).
+
+__4. Import multiple samples__ 
 
 IGV allows you to import multiple alignment together and compare them. 
 
-__Please load all 3 of our samples into IGV and compare them.__
+__Please load another sample into IGV.__
 
 Did you find anything interesting? 
 
