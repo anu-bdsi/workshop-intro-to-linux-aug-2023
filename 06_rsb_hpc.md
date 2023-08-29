@@ -7,31 +7,103 @@
 
 ....... 
 
-## Script for submitting jobs in SLURM 
+## RSB Computer Cluster 
+
+RSB provides a group of bioinformatics orientated Linux servers for research and teaching. 
+
+The RSB computer cluster consist of 3 servers. The 3 servers work together and are controlled and scheduled by software. 
+
+__`dayhoff`:__
+
+* 1TB of RAM
+* 196 cores
+* 100TB of data storage
+* Ubuntu 20.04 Linux
+* GPU capable (coming soon)
+
+__`wright`:__
+
+* 1TB of RAM
+* 64 cores
+* 70TB of data storage
+* Ubuntu 20.04 Linux 
+
+__`fisher`:__
+
+* 1TB of RAM
+* 56 cores
+* 50TB of data storage 
+* Ubuntu 20.04 Linux
+
+## Data Storage Locations
+
+__Home Directory:`/mnt/data/(server)/home/u_id`__ 
+
+You will be automatically in your home directory when you log in to a server. The path to your home directory is `/mnt/data/(server)/home/u_id`. You will have 3 home directories on the 3 servers, and where are you depends on which server you logged into. 
+
+Home directory is where you should install the software to and is where you can store your permanent small data. 
+
+__Groups Directory:`/mnt/data/(server)/home/groups`__
+
+This directory contains directories for every RSB lab. It's for sharing files with lab members. 
+
+__Projects Directory:`/mnt/data/(server)/home/projects`__
+
+This directory contains directories for projects, it is used for sharing and collaborating across groups. 
+
+__Scratch Space:`/mnt/data/(server)/home/scratch`__
+
+The scratch space is for all temporary, working, and non-persistent data. It is allocated 60% of all local storage and is not backed up. Files in the scratch space will be deleted after 130 days. 
+
+A reminder email will be sent out on the first day of each month, containing a list of files that will be deleted at the end of the month. You will need to move important file to somewhere else and delete other files. 
+
+## Job Scheduling System Slurm and PBS Professional
+
+A job scheduling system, often referred to as a workload management or cluster management system, is a software tool designed to efficiently allocate and manage computing resources in a distributed computing environment. 
+
+These systems are commonly used to high-performance computing (HPC) clusters, data centers, and other large-scale computing infrastructures. Their primary purpose is to optimise the utilisation of available resources while ensuring fair access to those resources for multiple users. 
+
+Slurm and PBS Professional are two popular job scheduling systems. They serve similar purpose but different origins and features. 
+
+Slurm is an open-source project that originated from Lawrence Livermore National Library in the United States. It was first developed in the early 2000s and has since gained popularity in the HPC community. PBS Pro has a longer history and was initially developed by NASA in the 1990s. It was later commercialised by several companies, including Altair Engineering, which currently develops and supports PBS Pro. 
+
+Slurm is used on the RSB computer cluster, and NCI uses PBS Pro. 
+
+## Example script for submitting jobs on Slurm 
+
+### `SBATCH` header 
+
+The `SBATCH` header is where we change the allocation settings of a job. We can change parameters like job name, log file paths, time, RAM, CPU number etc. 
 
 ```sh
 #!/bin/bash 
-#SBATCH --job-name=job_name
-#SBATCH --output=/mnt/data/dayhoff/home/u_id/.../job_name.out
-#SBATCH --error=/mnt/data/dayhoff/home/u_id/.../job_name.err
+#SBATCH --job-name=job_00
+#SBATCH --output=/path/to/output/job_00.out
+#SBATCH --error=/path/to/output/job_00.err
 #SBATCH --partition=Standard
-#SBATCH --time=2:00:00
+#SBATCH --time=1:00:00                      # [hh:mm:ss]
 #SBATCH --mem=5G
 #SBATCH --nodes=1
 #SBATCH --ntasks=1
-#SBATCH --cpus-per-task=2
-#SBATCH --ntasks-per-node=1
-#SBATCH --mail-user=email_address
-#SBATCH --mail-type=ALL
-
-HOME_DIR=/mnt/data/dayhoff/home/u_id
-
-
+#SBATCH --cpus-per-task=4
+#SBATCH --mail-user=u_id@anu.edu.au
+#SBATCH --mail-type=ALL 
 ```
 
-## Writing a shell script for variant calling 
+* `job-name`: the name of your job. You can name it anything. 
+* `output`: path and filename to store the output log file of this job. It contains information that should be printed on the screen.
+* `error`: path and filea to store the error log file of this job. It contains all the error messages has in this job. 
+* `partition`: is the queue you want to submit your job to. It is used to separating jobs to different queues. We only have one partition on the cluster which is called `Standard`, so all the jobs will be submitted to the same queue. 
+* `time`: time limit for this job. Format in `days-hh:mm:ss`. 
+* `mem`: RAM size you want to allocate. 
+* `nodes`: each node is an independent computer. On our cluster, we have 3 nodes which is dayhoff, wright, and fisher. If you are using parallel processing, you may want to separate your sub-jobs to different nodes to spread the workload. 
+* `ntasks`: the number of tasks included in this job. It is used when doing parallel processing with `srun` command. If there is no `srun` command, your entire script would be 1 task. 
+* `cpus-per-taks`: number of CPUs you want to allocate for each task. 
+* `mail-user`: the email address to receive messages. 
+* `mail-type`: types of messages you want to receive. `ALL` for everything. `BEGIN` for job begins execution. `END` for job finishes. `FAIL` for job fails. 
 
-Create a new file called `variant_calling.sh`, and input the following codes, change the path and emaill address accordingly for the SBATCH headings: 
+
+????????????????????????
 
 ```sh
 #!/bin/bash 
@@ -118,11 +190,7 @@ sbatch variant_calling.sh
 
 After running the sbatch command, you'll see a job ID popped up on your screen. Wait for a few seconds, and you can run ```squeue``` to check if your job is running. 
 
-__Questions:__ 
 
-* What is ```set -e```?
-* Why do we need to add ```/mnt/data/(server)/```?
-* What is cluster, node, core, and CPU?
 
 __Exercise:__ 
 
@@ -140,13 +208,9 @@ For ```SRR2589044``` from generation 5000 there were 10 mutations, for ```SRR258
 
 # Use SLURM to run your jobs on RSB IT infrastructure  
 
-Slurm is an open source, fault-tolerant, and highly scalable cluster management and job scheduling system for large and small Linux clusters. It allows users to allocate resources for their jobs rather than taking up whatever resources available. It also let you run jobs in the background rather than looking at the screen all the time. 
 
-## Data storage locations 
 
-There are three nodes on Dayhoff: ```dayhoff```, ```wright```, and ```fisher```. 
 
-If you run ```pwd``` in your home directory, you'll probably see something like ```/home/UID```. But in reality, that's only the path from your home node. For cluster-wide shared data namespace, we have to add ```/mnt/data/(server)``` before the path we get from ```pwd```. 
 
 ## A sample sbatch file 
 
