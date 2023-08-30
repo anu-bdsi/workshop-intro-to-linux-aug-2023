@@ -2,8 +2,11 @@
 
 ## Learning objectives 
 
-* 
-* 
+* Know the basic information of RSB computer cluster 
+* Understand the data storage locations on RSB cluster 
+* Understand what is job scheduling system
+* Understand the important parts of a SBATCH script 
+* Be able to write and run a SBATCH script
 
 ....... 
 
@@ -13,7 +16,7 @@ RSB provides a group of bioinformatics orientated Linux servers for research and
 
 The RSB computer cluster consist of 3 servers. The 3 servers work together and are controlled and scheduled by software. 
 
-__`dayhoff`:__
+__dayhoff:__
 
 * 1TB of RAM
 * 196 cores
@@ -21,14 +24,14 @@ __`dayhoff`:__
 * Ubuntu 20.04 Linux
 * GPU capable (coming soon)
 
-__`wright`:__
+__wright:__
 
 * 1TB of RAM
 * 64 cores
 * 70TB of data storage
 * Ubuntu 20.04 Linux 
 
-__`fisher`:__
+__fisher:__
 
 * 1TB of RAM
 * 56 cores
@@ -73,7 +76,7 @@ Slurm is used on the RSB computer cluster, and NCI uses PBS Pro.
 
 ### `SBATCH` header 
 
-The `SBATCH` header is where we change the allocation settings of a job. We can change parameters like job name, log file paths, time, RAM, CPU number etc. 
+The `SBATCH` header is where we change the allocation settings of a job. We can change parameters like job name, log file paths, time, RAM, CPU numbers etc. 
 
 ```sh
 #!/bin/bash 
@@ -102,29 +105,93 @@ The `SBATCH` header is where we change the allocation settings of a job. We can 
 * `mail-user`: the email address to receive messages. 
 * `mail-type`: types of messages you want to receive. `ALL` for everything. `BEGIN` for job begins execution. `END` for job finishes. `FAIL` for job fails. 
 
+### Activate conda environment in SBATCH script 
 
-????????????????????????
+The command to activate a conda environment in the SBATCH script is different from the command line. To use a certain conda environment for your script, we need to put the following line of code in the script:
+
+```sh
+source /opt/conda/bin/activate /mnt/data/wright/home/[u_id]/.conda/envs/[env-name]
+```
+
+### Avoid using `cd` command in the SBATCH script
+
+Because through the job scheduling system, your job can be allocated to any of the nodes. And `cd` command doesn't work across nodes. 
+
+### Write a SBATCH script for the trimming and filtering step
+
+Let's create a script called `run_trim.sh` and input the following code:
 
 ```sh
 #!/bin/bash 
 #SBATCH --job-name=variant_calling 
-#SBATCH --output=/mnt/data/dayhoff/home/u_id/workshops/variant-calling/variant_calling.out
-#SBATCH --error=/mnt/data/dayhoff/home/u_id/workshops/variant-calling/variant_calling.err
+#SBATCH --output=/mnt/data/wright/home/[u_id]/workshops/variant-calling/variant_calling.out
+#SBATCH --error=/mnt/data/wright/home/[u_id]/workshops/variant-calling/variant_calling.err
 #SBATCH --partition=Standard
 #SBATCH --time=120
 #SBATCH --mem=5G
 #SBATCH --nodes=1
 #SBATCH --ntasks=1
 #SBATCH --cpus-per-task=2
-#SBATCH --ntasks-per-node=1
+#SBATCH --mail-user=email_address
+#SBATCH --mail-type=ALL 
+
+source /opt/conda/bin/activate /mnt/data/wright/home/[u_id]/.conda/envs/[env-name]
+
+dir=/mnt/data/wright/home/[u_id]/workshops/variant-calling/raw-fastq
+trimmedDir=/mnt/data/wright/home/[u_id]/workshops/variant-calling/trimmed-fastq
+
+mkdir -p $trimmedDir 
+
+for i in $dir/*_1.fastq
+do
+base=$(basename $i _1.fastq)
+
+fastq1=$dir/${base}_1.fastq
+fastq2=$dir/${base}_2.fastq
+trim1=$trimmedDir/${base}_1.trim.fastq
+trim2=$trimmedDir/${base}_2.trim.fastq
+untrim1=$trimmedDir/${base}_1un.trim.fastq
+untrim2=$trimmedDir/${base}_2un.trim.fastq
+
+trimmomatic PE $fastq1 $fastq2 \
+                $trim1 $untrim1 \
+                $trim2 $untrim2 \
+                SLIDINGWINDOW:4:20 MINLEN:25 ILLUMINACLIP:NexteraPE-PE.fa:2:40:15
+
+done
+```
+
+## Parallel Processing 
+
+There are several ways to do parallel processing.
+
+### Use multiple CPUs 
+
+Many of the software are built with the ability to use multiple CPUs for running the program. Usually there is an option `-t` or `--threads` for you specify the CPU numbers.
+
+Using Trimmomatic as an example, if we read its help manual. 
+
+
+
+????????????????????????
+
+```sh
+#!/bin/bash 
+#SBATCH --job-name=variant_calling 
+#SBATCH --output=/mnt/data/wright/home/[u_id]/workshops/variant-calling/variant_calling.out
+#SBATCH --error=/mnt/data/wright/home/[u_id]/workshops/variant-calling/variant_calling.err
+#SBATCH --partition=Standard
+#SBATCH --time=120
+#SBATCH --mem=5G
+#SBATCH --nodes=1
+#SBATCH --ntasks=1
+#SBATCH --cpus-per-task=2
 #SBATCH --mail-user=email_address
 #SBATCH --mail-type=ALL
 
-set -e
+source /opt/conda/bin/activate /mnt/data/wright/home/[u_id]/.conda/envs/ecoli-vc
 
-source /opt/conda/bin/activate /mnt/data/dayhoff/u_id/.conda/envs/ecoli-vc
-
-home_dir=~/workshops/variant-calling
+home_dir=/mnt/data/wright/workshops/variant-calling
 
 raw_dir=${home_dir}/raw-fastq
 trimmed_dir=${home_dir}/trimmed-fastq
