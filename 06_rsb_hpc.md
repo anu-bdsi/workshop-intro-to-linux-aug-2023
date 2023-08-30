@@ -281,7 +281,7 @@ Save and submit the job by running `sbatch run_trim.sh`.
 
 source /opt/conda/bin/activate /mnt/data/wright/home/[u_id]/.conda/envs/ecoli-vc
 
-home_dir=/mnt/data/wright/workshops/variant-calling
+home_dir=/mnt/data/wright/home/[u_id]/workshops/variant-calling
 
 raw_dir=${home_dir}/raw-fastq
 trimmed_dir=${home_dir}/trimmed-fastq
@@ -297,7 +297,7 @@ vcf_dir=${results_dir}/vcf
 mkdir -p ${sam_dir} ${bam_dir} ${bcf_dir} ${vcf_dir}
 
 genome=${home_dir}/ref-genome/ecoli_rel606.fasta 
-NexteraPE=/mnt/data/wright/home/[u_id]/.conda/pkgs/trimmomatic-0.39-hdfd78af_2/share/trimmomatic-0.39-2/adapters/NexteraPE-PE.fa
+NexteraPE=${home_dir}/.conda/pkgs/trimmomatic-0.39-hdfd78af_2/share/trimmomatic-0.39-2/adapters/NexteraPE-PE.fa
 
 bwa index $genome
 
